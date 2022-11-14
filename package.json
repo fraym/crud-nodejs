@@ -12,25 +12,34 @@
         "test": "echo \"Error: no test specified\" && exit 0",
         "format": "prettier --write \"**/*.{ts,tsx,json}\"",
         "lint": "prettier --check \"**/*.{ts,tsx,json}\"",
-        "build": "npm run clean && tsc",
+        "build": "npm run clean && tsc && chmod +x dist/cmd/crud.js",
         "clean": "rm -rf dist",
         "prepublishOnly": "npm test && npm run lint && npm run build",
-        "preversion": "npm run lint"
+        "preversion": "npm run lint",
+        "cmd": "dist/cmd/crud.js",
+        "cmd2": "dist/cmd/crud.js --config .tst/crud.config.json"
     },
     "files": [
         "dist/**/*"
     ],
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "bin": {
+        "crud": "dist/cmd/crud.js"
+    },
     "dependencies": {
         "@fraym/crud-proto": "^1.0.0-alpha.5",
         "@grpc/grpc-js": "^1.7.2",
-        "uuid": "^9.0.0"
+        "fs": "^0.0.1-security",
+        "graphql": "^16.6.0",
+        "yargs": "^17.6.2"
     },
     "devDependencies": {
         "@becklyn/prettier": "^1.0.2",
         "@types/uuid": "^8.3.4",
+        "@types/yargs": "^17.0.13",
         "prettier": "^2.7.1",
+        "uuid": "^9.0.0",
         "typescript": "^4.8.4"
     },
     "prettier": "@becklyn/prettier"

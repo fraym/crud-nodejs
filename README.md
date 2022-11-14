@@ -8,6 +8,23 @@ Client implementation in javascript for the CRUD service [streams](https://githu
 npm i @fraym/crud
 ```
 
+## CLI command
+
+Use the `crud` cli command to automatically apply your crud schemas to the crud service.
+
+The `--config ./path/crud.config.json` flag can be used to configure the pat to your config file.
+
+Your type schemas have to live directly below the path that you specified in `schemaPath` of your config file.
+
+### CLI command config
+
+```json
+{
+    "schemaPath": "./src/crud", // path to your crud schema files
+    "serverAddress": "127.0.0.1:9000" // address of the crud service
+}
+```
+
 ## Usage
 
 ### Create the clients
@@ -17,7 +34,6 @@ delivery client:
 ```typescript
 const deliveryClient = await newDeliveryClient({
     serverAddress: "127.0.0.1:9000",
-    groupId: "your-services-group-identifier",
 });
 ```
 
@@ -26,7 +42,6 @@ management client:
 ```typescript
 const managementClient = await newManagementClient({
     serverAddress: "127.0.0.1:9000",
-    groupId: "your-services-group-identifier",
 });
 ```
 
