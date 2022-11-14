@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-nodejs
+  namespace: crud-nodejs
+  labels:
+    app: crud-nodejs
+spec:
+  selector:
+    matchLabels:
+      app: crud-nodejs
+  template:
+    metadata:
+      labels:
+        app: crud-nodejs
+    spec:
+      containers:
+        - name: crud-nodejs
+          image: golang:alpine
+          imagePullPolicy: Never
+          command: ["sleep", "infinity"]

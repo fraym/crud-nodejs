@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud
+  namespace: crud
+  labels:
+    app: crud
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crud
+  template:
+    metadata:
+      labels:
+        app: crud
+    spec:
+      volumes:
+        - name: env
+          configMap:
+            name: crud-env-data
+      containers:
+        - name: crud
+          image: 067475952430.dkr.ecr.eu-central-1.amazonaws.com/fraym/crud:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+            - containerPort: 9000
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: env
+              mountPath: /root/.env
+              subPath: .env
+              readOnly: true
