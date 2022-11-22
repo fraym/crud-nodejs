@@ -12,15 +12,16 @@ npm i @fraym/crud
 
 Use the `crud` cli command to automatically apply your crud schemas to the crud service.
 
-The `--config ./path/crud.config.json` flag can be used to configure the pat to your config file.
+The `--config ./path/crud.config.json` flag can be used to configure the path of your config file.
 
-Your type schemas have to live directly below the path that you specified in `schemaPath` of your config file.
+Your type schemas have to match the glob you specify in `schemaGlob` of he config file (default: `./src/**/*.graphql`).
+You can specify the address (and port) of the crud service instance you use in `serverAddress` of the config file (default: `127.0.0.1:9000`).
 
 ### CLI command config
 
 ```json
 {
-    "schemaPath": "./src/crud", // path to your crud schema files
+    "schemaGlob": "./src/crud/*.graphql", // path to your crud schema files
     "serverAddress": "127.0.0.1:9000" // address of the crud service
 }
 ```

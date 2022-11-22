@@ -1,3 +1,7 @@
+# v0.3.0
+
+-   (feature) Add array fields and object / reference support
+
 # v0.2.0
 
 -   (feature) Add `crud` cli command
