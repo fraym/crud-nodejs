@@ -281,10 +281,10 @@ const migrateSchemas = async (
         });
     });
 
-    if (typesToRemove.length > 0) {
-        console.log(`Removing ${typesToRemove.length} types: ${typesToRemove}...`);
-        await managementClient.removeTypes(typesToRemove).catch(console.log);
-        console.log(`Removed ${typesToRemove.length} types`);
+    if (typesToCreate.length > 0) {
+        console.log(`Creating ${typesToCreate.length} types: ${typesToCreate}...`);
+        await managementClient.createTypes(createSchema).catch(console.log);
+        console.log(`Created ${typesToCreate.length} types`);
     }
 
     if (typesToUpdate.length > 0) {
@@ -293,9 +293,9 @@ const migrateSchemas = async (
         console.log(`Updated ${typesToUpdate.length} types`);
     }
 
-    if (typesToCreate.length > 0) {
-        console.log(`Creating ${typesToCreate.length} types: ${typesToCreate}...`);
-        await managementClient.createTypes(createSchema).catch(console.log);
-        console.log(`Created ${typesToCreate.length} types`);
+    if (typesToRemove.length > 0) {
+        console.log(`Removing ${typesToRemove.length} types: ${typesToRemove}...`);
+        await managementClient.removeTypes(typesToRemove).catch(console.log);
+        console.log(`Removed ${typesToRemove.length} types`);
     }
 };

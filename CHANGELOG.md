@@ -1,3 +1,7 @@
+# v0.3.1
+
+-   (bug) Fix order of migration steps
+
 # v0.3.0
 
 -   (feature) Add array fields and object / reference support
