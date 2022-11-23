@@ -8,6 +8,11 @@ Client implementation in javascript for the CRUD service [streams](https://githu
 npm i @fraym/crud
 ```
 
+## GraphQL
+
+You can access the graphQL api at `http://crud:3000/delivery/graphql`.
+There is a sandbox available at `http://crud:3000/delivery/graphql/sandbox`.
+
 ## CLI command
 
 Use the `crud` cli command to automatically apply your crud schemas to the crud service.
