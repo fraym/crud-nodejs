@@ -13,6 +13,8 @@ npm i @fraym/crud
 You can access the graphQL api at `http://crud:3000/delivery/graphql`.
 There is a sandbox available at `http://crud:3000/delivery/graphql/sandbox`.
 
+You need to add the `Tenant-Id` header in order to use the graphQL Endpoint and the sandbox.
+
 ## CLI command
 
 Use the `crud` cli command to automatically apply your crud schemas to the crud service.
