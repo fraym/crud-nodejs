@@ -21,6 +21,7 @@ export const getCrudDataList = async (
                 id: "",
                 limit,
                 page,
+                returnEmptyDataIfNotFound: false,
             },
             (error, response) => {
                 if (error) {

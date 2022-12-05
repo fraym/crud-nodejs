@@ -16,7 +16,12 @@ export interface DeliveryClient {
         data: Record<string, any>
     ) => Promise<void>;
     delete: (tenantId: string, type: string, id: string) => Promise<void>;
-    getData: (tenantId: string, type: string, id: string) => Promise<GetCrudData | null>;
+    getData: (
+        tenantId: string,
+        type: string,
+        id: string,
+        returnEmptyDataIfNotFound?: boolean
+    ) => Promise<GetCrudData | null>;
     getDataList: (
         tenantId: string,
         type: string,
@@ -26,7 +31,7 @@ export interface DeliveryClient {
     close: () => Promise<void>;
 }
 
-export const newDeliveryClient = async (config: ClientConfig): Promise<DeliveryClient> => {
+export const newDeliveryClient = async (config?: ClientConfig): Promise<DeliveryClient> => {
     config = useConfigDefaults(config);
     const serviceClient = new DeliveryServiceClient(
         config.serverAddress,
@@ -58,9 +63,10 @@ export const newDeliveryClient = async (config: ClientConfig): Promise<DeliveryC
     const getData = async (
         tenantId: string,
         type: string,
-        id: string
+        id: string,
+        returnEmptyDataIfNotFound: boolean = false
     ): Promise<GetCrudData | null> => {
-        return await getCrudData(tenantId, type, id, serviceClient);
+        return await getCrudData(tenantId, type, id, returnEmptyDataIfNotFound, serviceClient);
     };
 
     const getDataList = async (

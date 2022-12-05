@@ -28,10 +28,11 @@
         "crud": "dist/cmd/crud.js"
     },
     "dependencies": {
-        "@fraym/crud-proto": "^1.0.0-alpha.5",
+        "@fraym/crud-proto": "^1.0.0-alpha.6",
         "@graphql-tools/graphql-file-loader": "^7.5.11",
         "@graphql-tools/load": "^7.8.6",
         "@grpc/grpc-js": "^1.7.2",
+        "dotenv": "^16.0.3",
         "fs": "^0.0.1-security",
         "graphql": "^16.6.0",
         "yargs": "^17.6.2"

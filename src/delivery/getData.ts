@@ -6,6 +6,7 @@ export const getCrudData = async (
     tenantId: string,
     type: string,
     id: string,
+    returnEmptyDataIfNotFound: boolean,
     serviceClient: DeliveryServiceClient
 ): Promise<GetCrudData | null> => {
     return new Promise<GetCrudData | null>((resolve, reject) => {
@@ -16,6 +17,7 @@ export const getCrudData = async (
                 id,
                 limit: 0,
                 page: 0,
+                returnEmptyDataIfNotFound,
             },
             (error, response) => {
                 if (error) {

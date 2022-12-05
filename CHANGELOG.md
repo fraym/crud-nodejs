@@ -1,3 +1,7 @@
+# v0.4.0
+
+-   (bc) Switch to support for config in .env files
+
 # v0.3.1
 
 -   (bug) Fix order of migration steps

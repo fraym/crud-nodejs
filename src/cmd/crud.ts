@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-import fs from "fs";
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 import { newManagementClient } from "../management/client";
@@ -15,6 +14,7 @@ import {
     Kind,
     TypeNode,
 } from "graphql";
+import { config } from "dotenv";
 
 interface TypeDefinition {
     isCrudType: boolean;
@@ -23,17 +23,22 @@ interface TypeDefinition {
 }
 
 const run = async () => {
+    config();
+
     const argv = await yargs(hideBin(process.argv))
         .config({ schemaGlob: "./src/**/*.graphql", serverAddress: "127.0.0.1:9000" })
-        .pkgConf("crud")
-        .config(
-            "config",
-            "Path of your `crud.config.ts`, default: `./crud.config.ts`",
-            configPath => JSON.parse(fs.readFileSync(configPath, "utf-8"))
-        ).argv;
+        .pkgConf("crud").argv;
 
-    const schemaGlob: string = argv.schemaGlob as string;
-    const serverAddress: string = argv.serverAddress as string;
+    let schemaGlob: string = argv.schemaGlob as string;
+    let serverAddress: string = argv.serverAddress as string;
+
+    if (process.env.CRUD_SCHEMA_GLOB) {
+        schemaGlob = process.env.CRUD_SCHEMA_GLOB;
+    }
+
+    if (process.env.CRUD_SERVER_ADDRESS) {
+        serverAddress = process.env.CRUD_SERVER_ADDRESS;
+    }
 
     const schema = await loadSchema(`${schemaGlob}`, {
         loaders: [new GraphQLFileLoader()],

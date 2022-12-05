@@ -19,18 +19,16 @@ You need to add the `Tenant-Id` header in order to use the graphQL Endpoint and 
 
 Use the `crud` cli command to automatically apply your crud schemas to the crud service.
 
-The `--config ./path/crud.config.json` flag can be used to configure the path of your config file.
+Your type schemas have to match the glob you specify in the `CRUD_SCHEMA_GLOB` env variable (default: `./src/**/*.graphql`).
+You can specify the address (and port) of the crud service instance you use in the `CRUD_SERVER_ADDRESS` env variable (default: `127.0.0.1:9000`).
 
-Your type schemas have to match the glob you specify in `schemaGlob` of he config file (default: `./src/**/*.graphql`).
-You can specify the address (and port) of the crud service instance you use in `serverAddress` of the config file (default: `127.0.0.1:9000`).
+### Config
 
-### CLI command config
+use a `.env` file or env variables to configure cte clients and the command:
 
-```json
-{
-    "schemaGlob": "./src/crud/*.graphql", // path to your crud schema files
-    "serverAddress": "127.0.0.1:9000" // address of the crud service
-}
+```env
+CRUD_SERVER_ADDRESS=127.0.0.1:9000
+CRUD_SCHEMA_GLOB=./src/crud/*.graphql
 ```
 
 ## Usage
@@ -40,17 +38,13 @@ You can specify the address (and port) of the crud service instance you use in `
 delivery client:
 
 ```typescript
-const deliveryClient = await newDeliveryClient({
-    serverAddress: "127.0.0.1:9000",
-});
+const deliveryClient = await newDeliveryClient();
 ```
 
 management client:
 
 ```typescript
-const managementClient = await newManagementClient({
-    serverAddress: "127.0.0.1:9000",
-});
+const managementClient = await newManagementClient();
 ```
 
 ### Create one or multipe CRUD types
