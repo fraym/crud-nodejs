@@ -16,8 +16,7 @@
         "clean": "rm -rf dist",
         "prepublishOnly": "npm test && npm run lint && npm run build",
         "preversion": "npm run lint",
-        "cmd": "dist/cmd/crud.js",
-        "cmd2": "dist/cmd/crud.js --config .tst/crud.config.json"
+        "cmd": "dist/cmd/crud.js"
     },
     "files": [
         "dist/**/*"

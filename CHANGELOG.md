@@ -1,3 +1,7 @@
+# v0.5.0
+
+-   (feature) Add enum support
+
 # v0.4.0
 
 -   (bc) Switch to support for config in .env files

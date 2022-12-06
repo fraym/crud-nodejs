@@ -9,6 +9,7 @@ import {
     ConstDirectiveNode,
     ConstValueNode,
     FieldDefinitionNode,
+    GraphQLEnumType,
     GraphQLObjectType,
     GraphQLSchema,
     Kind,
@@ -55,7 +56,7 @@ const getTypeDefinition = (schema: GraphQLSchema): Record<string, TypeDefinition
     const definitions: Record<string, TypeDefinition> = {};
 
     schema.toConfig().types.forEach(t => {
-        if (t.astNode?.kind !== Kind.OBJECT_TYPE_DEFINITION || !(t instanceof GraphQLObjectType)) {
+        if (!(t instanceof GraphQLObjectType) && !(t instanceof GraphQLEnumType)) {
             return;
         }
 
@@ -67,10 +68,35 @@ const getTypeDefinition = (schema: GraphQLSchema): Record<string, TypeDefinition
             );
         }
 
-        definitions[name] = getTypeDefinitionFromGraphQLObjectType(t);
+        if (t instanceof GraphQLObjectType) {
+            definitions[name] = getTypeDefinitionFromGraphQLObjectType(t);
+            return;
+        }
+
+        if (t instanceof GraphQLEnumType) {
+            definitions[name] = getTypeDefinitionFromGraphQLEnumType(t);
+            return;
+        }
     });
 
     return definitions;
+};
+
+const getTypeDefinitionFromGraphQLEnumType = (t: GraphQLEnumType): TypeDefinition => {
+    const name = t.toString();
+    let enumValuesString = "";
+
+    t.astNode?.values?.forEach(value => {
+        enumValuesString += `\n\t${value.name.value}`;
+    });
+
+    const schema = `enum ${name} {${enumValuesString}\n}`;
+
+    return {
+        isCrudType: false,
+        nestedTypes: [],
+        schema,
+    };
 };
 
 const getTypeDefinitionFromGraphQLObjectType = (t: GraphQLObjectType): TypeDefinition => {
@@ -130,7 +156,7 @@ const getFieldStringAndNestedTypes = (f: FieldDefinitionNode): FieldData => {
     }
 
     return {
-        str: `\n${f.name.value}: ${typeString}${directivesString}`,
+        str: `\n\t${f.name.value}: ${typeString}${directivesString}`,
         nestedTypes,
     };
 };
@@ -254,7 +280,10 @@ const migrateSchemas = async (
             updateSchema += `\n${definitions[existingName].schema}`;
 
             definitions[existingName].nestedTypes.forEach(nestedTypeName => {
-                if (nestedTypesToUpdate.indexOf(nestedTypeName) !== -1) {
+                if (
+                    nestedTypesToUpdate.indexOf(nestedTypeName) !== -1 ||
+                    (definitions[nestedTypeName] && definitions[nestedTypeName].isCrudType)
+                ) {
                     return;
                 }
 
@@ -262,13 +291,11 @@ const migrateSchemas = async (
 
                 nestedTypesToUpdate.push(nestedTypeName);
             });
-
-            delete definitions[existingName];
         }
     });
 
     Object.keys(definitions).forEach(newName => {
-        if (!definitions[newName].isCrudType) {
+        if (!definitions[newName].isCrudType || existingTypeNames.includes(newName)) {
             return;
         }
 
@@ -276,7 +303,10 @@ const migrateSchemas = async (
         createSchema += `\n${definitions[newName].schema}`;
 
         definitions[newName].nestedTypes.forEach(nestedTypeName => {
-            if (nestedTypesToCreate.indexOf(nestedTypeName) !== -1) {
+            if (
+                nestedTypesToCreate.indexOf(nestedTypeName) !== -1 ||
+                (definitions[nestedTypeName] && definitions[nestedTypeName].isCrudType)
+            ) {
                 return;
             }
 
