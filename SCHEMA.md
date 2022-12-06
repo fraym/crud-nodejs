@@ -17,7 +17,8 @@ The `@crudType` directive is used to tell your CRUD managed types apart from nes
 ## Fields
 
 -   You can use the following types for field values: `String`, `ID`, `Int`, `Float`, `Bool`
--   You can use other objects as type of a field, too.
+-   You can use enums
+-   You can use other objects as type of a field, too
     -   circular references or self references are allowed
 -   You can use arrays of all those types
 
