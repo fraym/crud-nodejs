@@ -1,6 +1,6 @@
 # crud-nodejs
 
-Client implementation in javascript for the CRUD service [streams](https://github.com/fraym/crud).
+Client implementation in javascript for the [CRUD service](https://github.com/fraym/crud).
 
 ## Installation
 
