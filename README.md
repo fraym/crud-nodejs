@@ -118,6 +118,12 @@ The `id` has to match the id of the data that you want to get.
 const data = await client.getData("tenantId", "YourCrudType", "id");
 ```
 
+You can specify a fourth parameter if you want to return a empty dataset instead of getting an error when querying a non existing element:
+
+```typescript
+const data = await client.getData("tenantId", "YourCrudType", "id", true);
+```
+
 ### Get (paginated) data
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
