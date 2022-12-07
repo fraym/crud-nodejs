@@ -32,7 +32,6 @@
         "@graphql-tools/load": "^7.8.6",
         "@grpc/grpc-js": "^1.7.2",
         "dotenv": "^16.0.3",
-        "fs": "^0.0.1-security",
         "graphql": "^16.6.0",
         "yargs": "^17.6.2"
     },

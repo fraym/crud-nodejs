@@ -175,7 +175,8 @@ const getTypeData = (t: TypeNode): TypeData => {
                 name === "Float" ||
                 name === "ID" ||
                 name === "Boolean" ||
-                name === "Int"
+                name === "Int" ||
+                name === "DateTime"
                 ? {
                       str: name,
                   }

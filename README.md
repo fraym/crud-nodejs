@@ -22,9 +22,11 @@ Use the `crud` cli command to automatically apply your crud schemas to the crud 
 Your type schemas have to match the glob you specify in the `CRUD_SCHEMA_GLOB` env variable (default: `./src/**/*.graphql`).
 You can specify the address (and port) of the crud service instance you use in the `CRUD_SERVER_ADDRESS` env variable (default: `127.0.0.1:9000`).
 
+You need to add a file that contains all built-in directives to your type schemas. The latest version of this file can be found [here](default.graphql).
+
 ### Config
 
-use a `.env` file or env variables to configure cte clients and the command:
+Use a `.env` file or env variables to configure cte clients and the command:
 
 ```env
 CRUD_SERVER_ADDRESS=127.0.0.1:9000
@@ -110,7 +112,7 @@ await client.delete("tenantId", "YourCrudType", "id");
 ### Get a single data element
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
-The `id` has to match the id of the data that you want to delete.
+The `id` has to match the id of the data that you want to get.
 
 ```typescript
 const data = await client.getData("tenantId", "YourCrudType", "id");

@@ -1,3 +1,8 @@
+# v0.6.0
+
+-   (feature) Add `DateTime` support
+-   (internal) Improve documentation
+
 # v0.5.0
 
 -   (feature) Add enum support
