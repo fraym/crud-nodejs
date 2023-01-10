@@ -1,4 +1,4 @@
-import { DataFilter, DeliveryServiceClient } from "@fraym/crud-proto";
+import { EntryFilter, DeliveryServiceClient } from "@fraym/crud-proto";
 
 export interface GetCrudDataList {
     limit: number;
@@ -18,7 +18,7 @@ export interface FieldFilter {
     value: any;
 }
 
-const getProtobufDataFilter = (filter: Filter): DataFilter => {
+const getProtobufEntryFilter = (filter: Filter): EntryFilter => {
     const fields: Record<string, FieldFilter> = {};
 
     for (const fieldName in filter.fields) {
@@ -40,8 +40,8 @@ const getProtobufDataFilter = (filter: Filter): DataFilter => {
 
     return {
         fields: fields,
-        and: filter.and.map(and => getProtobufDataFilter(and)),
-        or: filter.or.map(or => getProtobufDataFilter(or)),
+        and: filter.and.map(and => getProtobufEntryFilter(and)),
+        or: filter.or.map(or => getProtobufEntryFilter(or)),
     };
 };
 
@@ -62,7 +62,7 @@ export const getCrudDataList = async (
                 limit,
                 page,
                 returnEmptyDataIfNotFound: false,
-                filter: getProtobufDataFilter(filter),
+                filter: getProtobufEntryFilter(filter),
             },
             (error, response) => {
                 if (error) {

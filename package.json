@@ -27,7 +27,7 @@
         "crud": "dist/cmd/crud.js"
     },
     "dependencies": {
-        "@fraym/crud-proto": "^1.0.0-alpha.7",
+        "@fraym/crud-proto": "^1.0.0-alpha.8",
         "@graphql-tools/graphql-file-loader": "^7.5.11",
         "@graphql-tools/load": "^7.8.6",
         "@grpc/grpc-js": "^1.7.2",

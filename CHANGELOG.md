@@ -1,3 +1,7 @@
+# v0.7.1
+
+-   (bug) Fix protobuf declarations
+
 # v0.7.0
 
 -   (feature) Add `@index`
