@@ -5,7 +5,7 @@ import { createCrudData, CreatedCrudData } from "./create";
 import { updateCrudData } from "./update";
 import { deleteCrudData } from "./delete";
 import { GetCrudData, getCrudData } from "./getData";
-import { GetCrudDataList, getCrudDataList } from "./getDataList";
+import { Filter, GetCrudDataList, getCrudDataList } from "./getDataList";
 
 export interface DeliveryClient {
     create: (tenantId: string, type: string, data: Record<string, any>) => Promise<CreatedCrudData>;
@@ -26,7 +26,8 @@ export interface DeliveryClient {
         tenantId: string,
         type: string,
         limit?: number,
-        page?: number
+        page?: number,
+        filter?: Filter
     ) => Promise<GetCrudDataList | null>;
     close: () => Promise<void>;
 }
@@ -73,9 +74,10 @@ export const newDeliveryClient = async (config?: ClientConfig): Promise<Delivery
         tenantId: string,
         type: string,
         limit: number = 0,
-        page: number = 1
+        page: number = 1,
+        filter: Filter = { fields: {}, and: [], or: [] }
     ): Promise<GetCrudDataList | null> => {
-        return await getCrudDataList(tenantId, type, limit, page, serviceClient);
+        return await getCrudDataList(tenantId, type, limit, page, filter, serviceClient);
     };
 
     const close = async () => {

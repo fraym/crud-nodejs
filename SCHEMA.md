@@ -72,3 +72,13 @@ enum Status {
     INACTIVE
 }
 ```
+
+### Mark a field as filterable
+
+Use the `@index` directive on a field enable filtering on it in all list queries and graphql subscriptions.
+
+```graphql
+type User @crudType {
+    email: String! @index
+}
+```

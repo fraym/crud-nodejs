@@ -5,3 +5,4 @@ directive @crudType on OBJECT
 
 directive @validate(tags: [String!]!) on FIELD_DEFINITION
 directive @default(value: Any!) on FIELD_DEFINITION
+directive @index on FIELD_DEFINITION

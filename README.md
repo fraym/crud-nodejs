@@ -124,7 +124,7 @@ You can specify a fourth parameter if you want to return a empty dataset instead
 const data = await client.getData("tenantId", "YourCrudType", "id", true);
 ```
 
-### Get (paginated) data
+### Get (paginated / filtered) data
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
 
@@ -141,6 +141,59 @@ const limit = 50; // elements to query per page
 const page = 1; // number of the page you want to select, first page starts at: 1
 const data = await client.getDataList("tenantId", "YourCrudType", limit, page);
 ```
+
+With filter:
+
+```typescript
+const data = await client.getDataList("tenantId", "YourCrudType", undefined, undefined, {
+    fields: {
+        fieldName: {
+            operation: "equals",
+            type: "Int",
+            value: 123,
+        },
+    },
+});
+```
+
+All `Filter`s are evaluated by:
+
+-   checking that all field filters match
+-   checking that all `and` filters match
+-   checking that one of the `or` filters match
+
+Avaliable types:
+
+-   `String`
+-   `ID`
+-   `DateTime`
+-   `Int`
+-   `Float`
+-   `Boolean`
+
+Avaliable operators for all types:
+
+-   `equals`
+-   `notEquals`
+
+Avaliable options for the filter type `DateTime`:
+
+-   `inArray`
+-   `notInArray`
+-   `after`
+-   `before`
+
+Avaliable options for the filter type `String` and `ID`:
+
+-   `inArray`
+-   `notInArray`
+
+Avaliable options for the filter type `Int` and `Float`:
+
+-   `lessThan`
+-   `greaterThan`
+-   `lessThanOrEqual`
+-   `greaterThanOrEqual`
 
 ### Gracefully close the clients
 

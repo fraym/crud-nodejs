@@ -1,3 +1,8 @@
+# v0.7.0
+
+-   (feature) Add `@index`
+-   (feature) Add filter for `getDataList` of delivery client
+
 # v0.6.0
 
 -   (feature) Add `DateTime` support
