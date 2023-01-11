@@ -1,3 +1,7 @@
+# v0.8.1
+
+-   (bug) Fix namespace error message
+
 # v0.8.0
 
 -   (feature) Add `CRUD_NAMESPACE` env variable
