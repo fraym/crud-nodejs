@@ -51,7 +51,7 @@ const run = async () => {
     }
 
     if (namespace === "Fraym") {
-        throw new Error("Cannot use Fraym as namespace prefix as it is reserved for fraym apps");
+        throw new Error("Cannot use Fraym as namespace as it is reserved for fraym apps");
     }
 
     const schema = await loadSchema(`${schemaGlob}`, {
