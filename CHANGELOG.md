@@ -1,3 +1,8 @@
+# v0.8.0
+
+-   (feature) Add `CRUD_NAMESPACE` env variable
+-   (improvement) Do not allow type names that start with `Fraym`
+
 # v0.7.1
 
 -   (bug) Fix protobuf declarations
