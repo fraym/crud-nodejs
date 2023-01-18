@@ -292,6 +292,10 @@ const migrateSchemas = async (
     serverAddress: string,
     namespace: string
 ) => {
+    console.log(`Considering ${Object.keys(definitions).length} type definitions for migration.`);
+    console.log(`Using server address ${serverAddress}`);
+    console.log(`Using namespace ${namespace}`);
+
     const managementClient = await newManagementClient({ serverAddress });
     const existingTypeNames = (await managementClient.getAllTypes()).filter(name =>
         name.startsWith(namespace)

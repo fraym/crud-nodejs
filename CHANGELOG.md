@@ -1,3 +1,7 @@
+# v0.9.0
+
+-   (feature) Add logging to crud command
+
 # v0.8.1
 
 -   (bug) Fix namespace error message
