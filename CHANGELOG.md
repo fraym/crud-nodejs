@@ -1,3 +1,7 @@
+# v0.9.1
+
+-   (bug) Use working version of @grpc/grpc-js
+
 # v0.9.0
 
 -   (feature) Add logging to crud command
