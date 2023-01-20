@@ -1,3 +1,7 @@
+# v0.9.2
+
+-   (bug) Make filter `and` and `or` optional
+
 # v0.9.1
 
 -   (bug) Use working version of @grpc/grpc-js

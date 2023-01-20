@@ -8,8 +8,8 @@ export interface GetCrudDataList {
 
 export interface Filter {
     fields: Record<string, FieldFilter>;
-    and: Filter[];
-    or: Filter[];
+    and?: Filter[];
+    or?: Filter[];
 }
 
 export interface FieldFilter {
@@ -40,8 +40,8 @@ const getProtobufEntryFilter = (filter: Filter): EntryFilter => {
 
     return {
         fields: fields,
-        and: filter.and.map(and => getProtobufEntryFilter(and)),
-        or: filter.or.map(or => getProtobufEntryFilter(or)),
+        and: filter.and ? filter.and.map(and => getProtobufEntryFilter(and)) : [],
+        or: filter.or ? filter.or.map(or => getProtobufEntryFilter(or)) : [],
     };
 };
 
