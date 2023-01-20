@@ -1,15 +1,13 @@
 import { DeliveryServiceClient } from "@fraym/crud-proto";
 
-export type GetCrudData = Record<string, any>;
-
-export const getCrudData = async (
+export const getCrudData = async <T extends {}>(
     tenantId: string,
     type: string,
     id: string,
     returnEmptyDataIfNotFound: boolean,
     serviceClient: DeliveryServiceClient
-): Promise<GetCrudData | null> => {
-    return new Promise<GetCrudData | null>((resolve, reject) => {
+): Promise<T | null> => {
+    return new Promise<T | null>((resolve, reject) => {
         serviceClient.getEntries(
             {
                 tenantId,
@@ -31,7 +29,7 @@ export const getCrudData = async (
                     return;
                 }
 
-                const data: Record<string, any> = {};
+                const data: any = {};
                 const resultData = response.result[0].data;
 
                 for (const key in resultData) {

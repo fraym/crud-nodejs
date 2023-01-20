@@ -1,9 +1,9 @@
 import { EntryFilter, DeliveryServiceClient } from "@fraym/crud-proto";
 
-export interface GetCrudDataList {
+export interface GetCrudDataList<T extends {}> {
     limit: number;
     page: number;
-    data: Record<string, any>[];
+    data: T[];
 }
 
 export interface Filter {
@@ -45,15 +45,15 @@ const getProtobufEntryFilter = (filter: Filter): EntryFilter => {
     };
 };
 
-export const getCrudDataList = async (
+export const getCrudDataList = async <T extends {}>(
     tenantId: string,
     type: string,
     limit: number,
     page: number,
     filter: Filter,
     serviceClient: DeliveryServiceClient
-): Promise<GetCrudDataList | null> => {
-    return new Promise<GetCrudDataList | null>((resolve, reject) => {
+): Promise<GetCrudDataList<T> | null> => {
+    return new Promise<GetCrudDataList<T> | null>((resolve, reject) => {
         serviceClient.getEntries(
             {
                 tenantId,
@@ -70,7 +70,7 @@ export const getCrudDataList = async (
                     return;
                 }
 
-                const data: Record<string, any>[] = [];
+                const data: any[] = [];
 
                 for (const result of response.result) {
                     const dataRecord: Record<string, any> = {};

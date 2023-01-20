@@ -1,3 +1,7 @@
+# v0.10.0
+
+-   (bc) Make filter `getData` and `getDataList` generic
+
 # v0.9.2
 
 -   (bug) Make filter `and` and `or` optional

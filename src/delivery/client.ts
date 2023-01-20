@@ -4,7 +4,7 @@ import { credentials } from "@grpc/grpc-js";
 import { createCrudData, CreatedCrudData } from "./create";
 import { updateCrudData } from "./update";
 import { deleteCrudData } from "./delete";
-import { GetCrudData, getCrudData } from "./getData";
+import { getCrudData } from "./getData";
 import { Filter, GetCrudDataList, getCrudDataList } from "./getDataList";
 
 export interface DeliveryClient {
@@ -16,19 +16,19 @@ export interface DeliveryClient {
         data: Record<string, any>
     ) => Promise<void>;
     delete: (tenantId: string, type: string, id: string) => Promise<void>;
-    getData: (
+    getData: <T extends {}>(
         tenantId: string,
         type: string,
         id: string,
         returnEmptyDataIfNotFound?: boolean
-    ) => Promise<GetCrudData | null>;
-    getDataList: (
+    ) => Promise<T | null>;
+    getDataList: <T extends {}>(
         tenantId: string,
         type: string,
         limit?: number,
         page?: number,
         filter?: Filter
-    ) => Promise<GetCrudDataList | null>;
+    ) => Promise<GetCrudDataList<T> | null>;
     close: () => Promise<void>;
 }
 
@@ -61,23 +61,23 @@ export const newDeliveryClient = async (config?: ClientConfig): Promise<Delivery
         return await deleteCrudData(tenantId, type, id, serviceClient);
     };
 
-    const getData = async (
+    const getData = async <T extends {}>(
         tenantId: string,
         type: string,
         id: string,
         returnEmptyDataIfNotFound: boolean = false
-    ): Promise<GetCrudData | null> => {
-        return await getCrudData(tenantId, type, id, returnEmptyDataIfNotFound, serviceClient);
+    ): Promise<T | null> => {
+        return await getCrudData<T>(tenantId, type, id, returnEmptyDataIfNotFound, serviceClient);
     };
 
-    const getDataList = async (
+    const getDataList = async <T extends {}>(
         tenantId: string,
         type: string,
         limit: number = 0,
         page: number = 1,
         filter: Filter = { fields: {}, and: [], or: [] }
-    ): Promise<GetCrudDataList | null> => {
-        return await getCrudDataList(tenantId, type, limit, page, filter, serviceClient);
+    ): Promise<GetCrudDataList<T> | null> => {
+        return await getCrudDataList<T>(tenantId, type, limit, page, filter, serviceClient);
     };
 
     const close = async () => {
