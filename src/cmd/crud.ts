@@ -202,7 +202,8 @@ const getTypeData = (t: TypeNode, namespace: string): TypeData => {
                 name === "ID" ||
                 name === "Boolean" ||
                 name === "Int" ||
-                name === "DateTime"
+                name === "DateTime" ||
+                name === "File"
                 ? {
                       str: name,
                   }
@@ -297,8 +298,8 @@ const migrateSchemas = async (
     console.log(`Using namespace ${namespace}`);
 
     const managementClient = await newManagementClient({ serverAddress });
-    const existingTypeNames = (await managementClient.getAllTypes()).filter(name =>
-        name.startsWith(namespace)
+    const existingTypeNames = (await managementClient.getAllTypes()).filter(
+        name => name.startsWith(namespace) && !name.startsWith("Fraym")
     );
 
     let createSchema = "";

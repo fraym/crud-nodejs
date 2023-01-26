@@ -1,3 +1,7 @@
+# v0.11.0
+
+-   (feature) Add support for `File`s
+
 # v0.10.1
 
 -   (bug) Remove null from return type of `getData` and `getDataList`
