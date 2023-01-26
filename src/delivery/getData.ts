@@ -6,8 +6,8 @@ export const getCrudData = async <T extends {}>(
     id: string,
     returnEmptyDataIfNotFound: boolean,
     serviceClient: DeliveryServiceClient
-): Promise<T | null> => {
-    return new Promise<T | null>((resolve, reject) => {
+): Promise<T> => {
+    return new Promise<T>((resolve, reject) => {
         serviceClient.getEntries(
             {
                 tenantId,
@@ -25,8 +25,7 @@ export const getCrudData = async <T extends {}>(
                 }
 
                 if (response.result.length !== 1) {
-                    resolve(null);
-                    return;
+                    throw new Error("did not find the requested crud entry");
                 }
 
                 const data: any = {};

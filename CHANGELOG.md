@@ -1,3 +1,7 @@
+# v0.10.1
+
+-   (bug) Remove null from return type of `getData` and `getDataList`
+
 # v0.10.0
 
 -   (bc) Make filter `getData` and `getDataList` generic

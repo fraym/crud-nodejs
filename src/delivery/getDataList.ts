@@ -52,8 +52,8 @@ export const getCrudDataList = async <T extends {}>(
     page: number,
     filter: Filter,
     serviceClient: DeliveryServiceClient
-): Promise<GetCrudDataList<T> | null> => {
-    return new Promise<GetCrudDataList<T> | null>((resolve, reject) => {
+): Promise<GetCrudDataList<T>> => {
+    return new Promise<GetCrudDataList<T>>((resolve, reject) => {
         serviceClient.getEntries(
             {
                 tenantId,
