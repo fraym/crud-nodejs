@@ -8,6 +8,7 @@ export const createCrudData = async (
     tenantId: string,
     type: string,
     data: Record<string, any>,
+    id: string,
     serviceClient: DeliveryServiceClient
 ): Promise<CreatedCrudData> => {
     const requestData: Record<string, string> = {};
@@ -26,6 +27,7 @@ export const createCrudData = async (
                 tenantId,
                 type,
                 data: requestData,
+                id,
             },
             (error, response) => {
                 if (error) {

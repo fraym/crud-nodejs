@@ -1,5 +1,6 @@
 scalar DateTime
 scalar File
+scalar Any
 
 directive @crudType on OBJECT
 

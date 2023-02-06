@@ -8,7 +8,12 @@ import { getCrudData } from "./getData";
 import { Filter, GetCrudDataList, getCrudDataList } from "./getDataList";
 
 export interface DeliveryClient {
-    create: (tenantId: string, type: string, data: Record<string, any>) => Promise<CreatedCrudData>;
+    create: (
+        tenantId: string,
+        type: string,
+        data: Record<string, any>,
+        id?: string
+    ) => Promise<CreatedCrudData>;
     update: (
         tenantId: string,
         type: string,
@@ -44,8 +49,13 @@ export const newDeliveryClient = async (config?: ClientConfig): Promise<Delivery
         }
     );
 
-    const create = async (tenantId: string, type: string, data: Record<string, any>) => {
-        return await createCrudData(tenantId, type, data, serviceClient);
+    const create = async (
+        tenantId: string,
+        type: string,
+        data: Record<string, any>,
+        id: string = ""
+    ) => {
+        return await createCrudData(tenantId, type, data, id, serviceClient);
     };
 
     const update = async (

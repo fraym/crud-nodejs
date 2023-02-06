@@ -1,3 +1,7 @@
+# v0.12.0
+
+-   (feature) Allow providing the id when creating a new entry
+
 # v0.11.0
 
 -   (feature) Add support for `File`s
