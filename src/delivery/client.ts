@@ -5,7 +5,9 @@ import { createCrudData, CreatedCrudData } from "./create";
 import { updateCrudData } from "./update";
 import { deleteCrudData } from "./delete";
 import { getCrudData } from "./getData";
-import { Filter, GetCrudDataList, getCrudDataList } from "./getDataList";
+import { GetCrudDataList, getCrudDataList } from "./getDataList";
+import { Filter } from "./filter";
+import { Order } from "./order";
 
 export interface DeliveryClient {
     create: (
@@ -20,7 +22,7 @@ export interface DeliveryClient {
         id: string,
         data: Record<string, any>
     ) => Promise<void>;
-    delete: (tenantId: string, type: string, id: string) => Promise<void>;
+    delete: (tenantId: string, type: string, id?: string, filter?: Filter) => Promise<void>;
     getData: <T extends {}>(
         tenantId: string,
         type: string,
@@ -32,7 +34,8 @@ export interface DeliveryClient {
         type: string,
         limit?: number,
         page?: number,
-        filter?: Filter
+        filter?: Filter,
+        order?: Order[]
     ) => Promise<GetCrudDataList<T>>;
     close: () => Promise<void>;
 }
@@ -67,8 +70,13 @@ export const newDeliveryClient = async (config?: ClientConfig): Promise<Delivery
         return await updateCrudData(tenantId, type, id, data, serviceClient);
     };
 
-    const deleter = async (tenantId: string, type: string, id: string) => {
-        return await deleteCrudData(tenantId, type, id, serviceClient);
+    const deleter = async (
+        tenantId: string,
+        type: string,
+        id: string = "",
+        filter: Filter = { fields: {}, and: [], or: [] }
+    ) => {
+        return await deleteCrudData(tenantId, type, id, filter, serviceClient);
     };
 
     const getData = async <T extends {}>(
@@ -85,9 +93,10 @@ export const newDeliveryClient = async (config?: ClientConfig): Promise<Delivery
         type: string,
         limit: number = 0,
         page: number = 1,
-        filter: Filter = { fields: {}, and: [], or: [] }
+        filter: Filter = { fields: {}, and: [], or: [] },
+        order: Order[] = []
     ): Promise<GetCrudDataList<T>> => {
-        return await getCrudDataList<T>(tenantId, type, limit, page, filter, serviceClient);
+        return await getCrudDataList<T>(tenantId, type, limit, page, filter, order, serviceClient);
     };
 
     const close = async () => {

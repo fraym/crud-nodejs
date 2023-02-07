@@ -106,10 +106,31 @@ await client.update("tenantId", "YourCrudType", "id", {
 ### Delete data
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
-The `id` has to match the id of the data that you want to delete.
+
+Delete all data of a type:
+
+```typescript
+await client.delete("tenantId", "YourCrudType");
+```
+
+Delete data matching a specific ID:
 
 ```typescript
 await client.delete("tenantId", "YourCrudType", "id");
+```
+
+Delete data matching a filter (see filter parameter for `getDataList` for details):
+
+```typescript
+await client.delete("tenantId", "YourCrudType", undefined, {
+    fields: {
+        fieldName: {
+            operation: "equals",
+            type: "Int",
+            value: 123,
+        },
+    },
+});
 ```
 
 ### Get a single data element
@@ -127,7 +148,7 @@ You can specify a fourth parameter if you want to return a empty dataset instead
 const data = await client.getData("tenantId", "YourCrudType", "id", true);
 ```
 
-### Get (paginated / filtered) data
+### Get (paginated / filtered / ordered) data
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
 
@@ -197,6 +218,19 @@ Avaliable options for the filter type `Int` and `Float`:
 -   `greaterThan`
 -   `lessThanOrEqual`
 -   `greaterThanOrEqual`
+
+With order:
+
+All order definitions are prioritized in the order that they are defined (the first definition is prioritized over the second).
+
+```typescript
+const data = await client.getDataList("tenantId", "YourCrudType", undefined, undefined, undefined, [
+    {
+        field: "fieldName",
+        descending: true, // omit this value for asc order
+    },
+]);
+```
 
 ### Gracefully close the clients
 

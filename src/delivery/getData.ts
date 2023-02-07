@@ -17,6 +17,7 @@ export const getCrudData = async <T extends {}>(
                 page: 0,
                 returnEmptyDataIfNotFound,
                 filter: { fields: {}, and: [], or: [] },
+                order: [],
             },
             (error, response) => {
                 if (error) {

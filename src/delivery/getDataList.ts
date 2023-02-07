@@ -1,4 +1,6 @@
-import { EntryFilter, DeliveryServiceClient } from "@fraym/crud-proto";
+import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { Filter, getProtobufEntryFilter } from "./filter";
+import { getProtobufEntryOrder, Order } from "./order";
 
 export interface GetCrudDataList<T extends {}> {
     limit: number;
@@ -6,51 +8,13 @@ export interface GetCrudDataList<T extends {}> {
     data: T[];
 }
 
-export interface Filter {
-    fields: Record<string, FieldFilter>;
-    and?: Filter[];
-    or?: Filter[];
-}
-
-export interface FieldFilter {
-    type: string;
-    operation: string;
-    value: any;
-}
-
-const getProtobufEntryFilter = (filter: Filter): EntryFilter => {
-    const fields: Record<string, FieldFilter> = {};
-
-    for (const fieldName in filter.fields) {
-        const field = filter.fields[fieldName];
-        let value: string = "";
-
-        if (field.type === "String" && typeof field.value == "string") {
-            value = field.value;
-        } else {
-            value = JSON.stringify(field.value);
-        }
-
-        fields[fieldName] = {
-            operation: field.operation,
-            type: field.type,
-            value,
-        };
-    }
-
-    return {
-        fields: fields,
-        and: filter.and ? filter.and.map(and => getProtobufEntryFilter(and)) : [],
-        or: filter.or ? filter.or.map(or => getProtobufEntryFilter(or)) : [],
-    };
-};
-
 export const getCrudDataList = async <T extends {}>(
     tenantId: string,
     type: string,
     limit: number,
     page: number,
     filter: Filter,
+    order: Order[],
     serviceClient: DeliveryServiceClient
 ): Promise<GetCrudDataList<T>> => {
     return new Promise<GetCrudDataList<T>>((resolve, reject) => {
@@ -63,6 +27,7 @@ export const getCrudDataList = async <T extends {}>(
                 page,
                 returnEmptyDataIfNotFound: false,
                 filter: getProtobufEntryFilter(filter),
+                order: getProtobufEntryOrder(order),
             },
             (error, response) => {
                 if (error) {

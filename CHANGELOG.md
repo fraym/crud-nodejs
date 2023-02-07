@@ -1,3 +1,8 @@
+# v0.13.0
+
+-   (feature) Allow order for list query
+-   (feature) Delete by filter
+
 # v0.12.0
 
 -   (feature) Allow providing the id when creating a new entry
