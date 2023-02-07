@@ -1,3 +1,7 @@
+# v0.13.1
+
+-   (bug) Also export `Filter`, `FieldFilter` and `Order`
+
 # v0.13.0
 
 -   (feature) Allow order for list query
