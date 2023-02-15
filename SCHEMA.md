@@ -82,3 +82,41 @@ type User @crudType {
     email: String! @index
 }
 ```
+
+### Filter field in graphql queries by jwt data
+
+Use the `@filterFromJwtData` directive on a field to filter it automatically by the given value from the jwt claims in all queries and graphql subscriptions.
+The value that is used for the filter will be extracted from the jwt claims data object's field that is identified by the given `key` (in this example this would be `data.yourJwtDataKey`).
+Note: If the filter value from the jwt contains array data, the filter will check if that field matches one of the elements of that array.
+
+```graphql
+type User @crudType {
+    field: String! @filterFromJwtData(key: "yourJwtDataKey")
+}
+```
+
+### Generate the value of a field by jwt data
+
+Use the `@fromJwtData` directive on a field to generate its value automatically by the given value from the jwt claims.
+A user will not be able to change (update / delete) entries that do not match the value provided by the jwt.
+The used value will be extracted from the jwt claims data object's field that is identified by the given `key` (in this example this would be `data.yourJwtDataKey`).
+
+This field is only available on `String` and `ID` fields.
+
+Note: If the value from the jwt contains array data, the filter will use the first element. If the jwt does not contain the value there is no update / delete restriction and the field will not be filled.
+
+```graphql
+type User @crudType {
+    field: String! @filterFromJwtData(key: "yourJwtDataKey")
+}
+```
+
+### Add permissions to a field
+
+Use the `@permission` directive on a field to apply permissions to it. Only users having that required permissions as a scope in their token will see that field.
+
+```graphql
+type User @crudType {
+    field: String! @permission(read: [PERMISSION_KEY])
+}
+```

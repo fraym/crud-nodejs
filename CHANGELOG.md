@@ -1,3 +1,10 @@
+# v0.14.0
+
+-   (feature) Add `@permission` directive
+-   (feature) Add `@expires` directive
+-   (feature) Add `@filterFromJwtData` directive
+-   (feature) Add `@fromJwtData` directive
+
 # v0.13.1
 
 -   (bug) Also export `Filter`, `FieldFilter` and `Order`

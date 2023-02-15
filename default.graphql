@@ -14,7 +14,16 @@ input ExpiresAfter {
 
 directive @crudType on OBJECT
 directive @expires(after: ExpiresAfter, condition: String) on OBJECT
+directive @permission(
+    read: [Permission!]
+    update: [Permission!]
+    create: [Permission!]
+    delete: [Permission!]
+    all: [Permission!]
+) on OBJECT | FIELD_DEFINITION
 
 directive @validate(tags: [String!]!) on FIELD_DEFINITION
 directive @default(value: Any!) on FIELD_DEFINITION
 directive @index on FIELD_DEFINITION
+directive @filterFromJwtData(key: String!) on FIELD_DEFINITION
+directive @fromJwtData(key: String!) on FIELD_DEFINITION

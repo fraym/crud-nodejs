@@ -271,6 +271,8 @@ const getValueString = (v: ConstValueNode): string => {
             return `${v.value}`;
         case Kind.NULL:
             return `null`;
+        case Kind.ENUM:
+            return `${v.value}`;
         case Kind.OBJECT:
             let objectString = "";
 
@@ -283,8 +285,6 @@ const getValueString = (v: ConstValueNode): string => {
             });
 
             return `{${objectString}}`;
-        default:
-            throw new Error(`values of kind ${v.kind} are currently not supported`);
     }
 };
 
