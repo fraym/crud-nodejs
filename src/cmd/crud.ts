@@ -288,6 +288,52 @@ const getValueString = (v: ConstValueNode): string => {
     }
 };
 
+interface NestedSchemaData {
+    schema: string;
+    nestedTypes: string[];
+}
+
+const addNestedTypesToSchema = (
+    definitions: Record<string, TypeDefinition>,
+    nestedTypeName: string,
+    nestedTypes: string[]
+): NestedSchemaData => {
+    const nestedTypeDefinition = definitions[nestedTypeName];
+
+    if (
+        nestedTypes.indexOf(nestedTypeName) !== -1 ||
+        (nestedTypeDefinition && nestedTypeDefinition.isCrudType)
+    ) {
+        return {
+            schema: "",
+            nestedTypes: [],
+        };
+    }
+
+    let newSchema = definitions[nestedTypeName].schema;
+    nestedTypes.push(nestedTypeName);
+
+    nestedTypeDefinition.nestedTypes.forEach(nestedNestedTypeName => {
+        const nestedSchemaData = addNestedTypesToSchema(
+            definitions,
+            nestedNestedTypeName,
+            nestedTypes
+        );
+
+        if (nestedSchemaData.schema === "") {
+            return;
+        }
+
+        newSchema += `\n${nestedSchemaData.schema}`;
+        nestedTypes.push(...nestedSchemaData.nestedTypes);
+    });
+
+    return {
+        schema: newSchema,
+        nestedTypes: nestedTypes,
+    };
+};
+
 const migrateSchemas = async (
     definitions: Record<string, TypeDefinition>,
     serverAddress: string,
@@ -318,16 +364,18 @@ const migrateSchemas = async (
             updateSchema += `\n${definitions[existingName].schema}`;
 
             definitions[existingName].nestedTypes.forEach(nestedTypeName => {
-                if (
-                    nestedTypesToUpdate.indexOf(nestedTypeName) !== -1 ||
-                    (definitions[nestedTypeName] && definitions[nestedTypeName].isCrudType)
-                ) {
+                const nestedSchemaData = addNestedTypesToSchema(
+                    definitions,
+                    nestedTypeName,
+                    nestedTypesToUpdate
+                );
+
+                if (nestedSchemaData.schema === "") {
                     return;
                 }
 
-                updateSchema += `\n${definitions[nestedTypeName].schema}`;
-
-                nestedTypesToUpdate.push(nestedTypeName);
+                updateSchema += `\n${nestedSchemaData.schema}`;
+                nestedTypesToUpdate.push(...nestedSchemaData.nestedTypes);
             });
         }
     });
@@ -341,34 +389,36 @@ const migrateSchemas = async (
         createSchema += `\n${definitions[newName].schema}`;
 
         definitions[newName].nestedTypes.forEach(nestedTypeName => {
-            if (
-                nestedTypesToCreate.indexOf(nestedTypeName) !== -1 ||
-                (definitions[nestedTypeName] && definitions[nestedTypeName].isCrudType)
-            ) {
+            const nestedSchemaData = addNestedTypesToSchema(
+                definitions,
+                nestedTypeName,
+                nestedTypesToCreate
+            );
+
+            if (nestedSchemaData.schema === "") {
                 return;
             }
 
-            createSchema += `\n${definitions[nestedTypeName].schema}`;
-
-            nestedTypesToCreate.push(nestedTypeName);
+            createSchema += `\n${nestedSchemaData.schema}`;
+            nestedTypesToCreate.push(...nestedSchemaData.nestedTypes);
         });
     });
 
     if (typesToCreate.length > 0) {
         console.log(`Creating ${typesToCreate.length} types: ${typesToCreate}...`);
-        await managementClient.createTypes(createSchema).catch(console.log);
+        await managementClient.createTypes(createSchema);
         console.log(`Created ${typesToCreate.length} types`);
     }
 
     if (typesToUpdate.length > 0) {
         console.log(`Updating ${typesToUpdate.length} types: ${typesToUpdate}...`);
-        await managementClient.updateTypes(updateSchema).catch(console.log);
+        await managementClient.updateTypes(updateSchema);
         console.log(`Updated ${typesToUpdate.length} types`);
     }
 
     if (typesToRemove.length > 0) {
         console.log(`Removing ${typesToRemove.length} types: ${typesToRemove}...`);
-        await managementClient.removeTypes(typesToRemove).catch(console.log);
+        await managementClient.removeTypes(typesToRemove);
         console.log(`Removed ${typesToRemove.length} types`);
     }
 };
