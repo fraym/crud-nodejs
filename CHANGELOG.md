@@ -1,3 +1,7 @@
+# v0.14.2
+
+-   (bug) Fix filter handling
+
 # v0.14.1
 
 -   (improvement) Improve error handling in migrations
