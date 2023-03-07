@@ -10,11 +10,7 @@ export const updateCrudData = async (
     const requestData: Record<string, string> = {};
 
     for (const key in data) {
-        if (typeof data[key] === "string") {
-            requestData[key] = data[key];
-        } else {
-            requestData[key] = JSON.stringify(data[key]);
-        }
+        requestData[key] = JSON.stringify(data[key]);
     }
 
     return new Promise<void>((resolve, reject) => {

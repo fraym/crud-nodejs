@@ -1,3 +1,7 @@
+# v0.14.3
+
+-   (bug) Stringify all payload fields
+
 # v0.14.2
 
 -   (bug) Fix filter handling
