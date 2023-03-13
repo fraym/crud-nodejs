@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: crud-nodejs
-  namespace: crud-nodejs
+  namespace: fraym
   labels:
     app: crud-nodejs
 spec:

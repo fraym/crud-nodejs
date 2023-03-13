@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: crud-nodejs
-  namespace: crud-nodejs
+  namespace: fraym
 spec:
   type: ClusterIP
   selector:
