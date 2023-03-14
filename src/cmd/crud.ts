@@ -29,17 +29,23 @@ const run = async () => {
     const argv = await yargs(hideBin(process.argv))
         .config({
             schemaGlob: "./src/**/*.graphql",
+            permissionsSchemaGlob: "",
             serverAddress: "127.0.0.1:9000",
             namespace: "",
         })
         .pkgConf("crud").argv;
 
     let schemaGlob: string = argv.schemaGlob as string;
+    let permissionsSchemaGlob: string = argv.permissionsSchemaGlob as string;
     let serverAddress: string = argv.serverAddress as string;
     let namespace: string = argv.namespace as string;
 
     if (process.env.CRUD_SCHEMA_GLOB) {
         schemaGlob = process.env.CRUD_SCHEMA_GLOB;
+    }
+
+    if (process.env.PERMISSIONS_SCHEMA_GLOB) {
+        permissionsSchemaGlob = process.env.PERMISSIONS_SCHEMA_GLOB;
     }
 
     if (process.env.CRUD_SERVER_ADDRESS) {
@@ -54,7 +60,13 @@ const run = async () => {
         throw new Error("Cannot use Fraym as namespace as it is reserved for fraym apps");
     }
 
-    const schema = await loadSchema(`${schemaGlob}`, {
+    const schemaGlobs = [`${schemaGlob}`];
+
+    if (permissionsSchemaGlob) {
+        schemaGlobs.push(`${permissionsSchemaGlob}`);
+    }
+
+    const schema = await loadSchema(schemaGlobs, {
         loaders: [new GraphQLFileLoader()],
     });
 

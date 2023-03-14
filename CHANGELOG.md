@@ -1,5 +1,9 @@
 # vNext
 
+# v0.15.0
+
+-   (feature) Add `PERMISSIONS_SCHEMA_GLOB` env variable
+
 # v0.14.3
 
 -   (bug) Stringify all payload fields
