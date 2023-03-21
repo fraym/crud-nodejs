@@ -1,5 +1,9 @@
 # vNext
 
+# v0.15.1
+
+-   (bug) Fix migration logic
+
 # v0.15.0
 
 -   (feature) Add `PERMISSIONS_SCHEMA_GLOB` env variable

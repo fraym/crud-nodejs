@@ -323,7 +323,10 @@ const addNestedTypesToSchema = (
     }
 
     let newSchema = definitions[nestedTypeName].schema;
-    nestedTypes.push(nestedTypeName);
+
+    if (!nestedTypes.includes(nestedTypeName)) {
+        nestedTypes.push(nestedTypeName);
+    }
 
     nestedTypeDefinition.nestedTypes.forEach(nestedNestedTypeName => {
         const nestedSchemaData = addNestedTypesToSchema(
@@ -337,7 +340,11 @@ const addNestedTypesToSchema = (
         }
 
         newSchema += `\n${nestedSchemaData.schema}`;
-        nestedTypes.push(...nestedSchemaData.nestedTypes);
+        nestedSchemaData.nestedTypes.forEach(nestedType => {
+            if (!nestedTypes.includes(nestedType)) {
+                nestedTypes.push(nestedType);
+            }
+        });
     });
 
     return {
@@ -387,7 +394,11 @@ const migrateSchemas = async (
                 }
 
                 updateSchema += `\n${nestedSchemaData.schema}`;
-                nestedTypesToUpdate.push(...nestedSchemaData.nestedTypes);
+                nestedSchemaData.nestedTypes.forEach(nestedType => {
+                    if (!nestedTypesToUpdate.includes(nestedType)) {
+                        nestedTypesToUpdate.push(nestedType);
+                    }
+                });
             });
         }
     });
@@ -412,7 +423,11 @@ const migrateSchemas = async (
             }
 
             createSchema += `\n${nestedSchemaData.schema}`;
-            nestedTypesToCreate.push(...nestedSchemaData.nestedTypes);
+            nestedSchemaData.nestedTypes.forEach(nestedType => {
+                if (!nestedTypesToCreate.includes(nestedType)) {
+                    nestedTypesToCreate.push(nestedType);
+                }
+            });
         });
     });
 
