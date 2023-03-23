@@ -1,16 +1,14 @@
-import { ManagementServiceClient } from "@fraym/crud-proto";
+import { ManagementClientConfig } from "config/config";
 
-export const getAllCrudTypes = async (
-    serviceClient: ManagementServiceClient
-): Promise<string[]> => {
-    return new Promise<string[]>((resolve, reject) => {
-        serviceClient.getTypes({}, (error, response) => {
-            if (error) {
-                reject(error.message);
-                return;
-            }
-
-            resolve(response.typeNames);
-        });
+export const getAllCrudTypes = async (config: ManagementClientConfig): Promise<string[]> => {
+    const response = await fetch(`${config.serverAddress}/management/types`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${config.apiToken}`,
+        },
     });
+
+    const data = await response.json();
+
+    return data.typeNames;
 };

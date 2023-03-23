@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 
-export interface ClientConfig {
-    // serverAddress: address of the crud service
+export interface DeliveryClientConfig {
+    // serverAddress: address of the projection service
     serverAddress: string;
     // keepaliveInterval: grpc connection keepalive ping interval in milliseconds
     keepaliveInterval?: number;
@@ -9,15 +9,22 @@ export interface ClientConfig {
     keepaliveTimeout?: number;
 }
 
-export const getEnvConfig = (): ClientConfig => {
+export interface ManagementClientConfig {
+    // serverAddress: address of the projection service
+    serverAddress: string;
+    // apiToken: auth token for the api
+    apiToken: string;
+}
+
+export const getEnvDeliveryConfig = (): DeliveryClientConfig => {
     config();
 
-    const serverAddress = process.env.CRUD_SERVER_ADDRESS ?? "";
+    const serverAddress = process.env.PROJECTIONS_SERVER_ADDRESS ?? "";
     let keepaliveInterval: number | undefined;
     let keepaliveTimeout: number | undefined;
 
-    const keepaliveIntervalString = process.env.CRUD_CONNECTION_KEEPALIVE_INTERVAL;
-    const keepaliveTimeoutString = process.env.CRUD_CONNECTION_KEEPALIVE_INTERVAL;
+    const keepaliveIntervalString = process.env.PROJECTIONS_CONNECTION_KEEPALIVE_INTERVAL;
+    const keepaliveTimeoutString = process.env.PROJECTIONS_CONNECTION_KEEPALIVE_INTERVAL;
 
     if (keepaliveIntervalString) {
         keepaliveInterval = parseInt(keepaliveIntervalString, 10);
@@ -34,14 +41,38 @@ export const getEnvConfig = (): ClientConfig => {
     };
 };
 
-export const useConfigDefaults = (config?: ClientConfig): Required<ClientConfig> => {
+export const getEnvManagementConfig = (): ManagementClientConfig => {
+    config();
+
+    return {
+        serverAddress: process.env.PROJECTIONS_MANAGEMENT_SERVER_ADDRESS ?? "",
+        apiToken: process.env.PROJECTIONS_MANAGEMENT_API_TOKEN ?? "",
+    };
+};
+
+export const useDeliveryConfigDefaults = (
+    config?: DeliveryClientConfig
+): Required<DeliveryClientConfig> => {
     if (!config) {
-        config = getEnvConfig();
+        config = getEnvDeliveryConfig();
     }
 
     return {
         serverAddress: config.serverAddress,
         keepaliveTimeout: config.keepaliveTimeout ?? 3 * 1000,
         keepaliveInterval: config.keepaliveInterval ?? 40 * 1000,
+    };
+};
+
+export const useManagementConfigDefaults = (
+    config?: ManagementClientConfig
+): Required<ManagementClientConfig> => {
+    if (!config) {
+        config = getEnvManagementConfig();
+    }
+
+    return {
+        serverAddress: config.serverAddress,
+        apiToken: config.apiToken,
     };
 };

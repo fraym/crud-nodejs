@@ -1,17 +1,17 @@
 import { ManagementClientConfig } from "config/config";
 
-export const removeCrudTypes = async (
-    typeNames: string[],
+export const upsertCrudTypes = async (
+    schema: string,
     config: ManagementClientConfig
 ): Promise<void> => {
     await fetch(`${config.serverAddress}/management/types`, {
-        method: "DELETE",
+        method: "POST",
         headers: {
             Authorization: `Bearer ${config.apiToken}`,
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            typeNames,
+            schema,
         }),
     });
 };

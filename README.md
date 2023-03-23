@@ -20,7 +20,10 @@ You need to add the `Tenant-Id` header in order to use the graphQL Endpoint and 
 Use the `crud` cli command to automatically apply your crud schemas to the crud service.
 
 Your type schemas have to match the glob you specify in the `CRUD_SCHEMA_GLOB` env variable (default: `./src/**/*.graphql`).
-You can specify the address (and port) of the crud service instance you use in the `CRUD_SERVER_ADDRESS` env variable (default: `127.0.0.1:9000`).
+
+Delivery API: You can specify the address (and port) of the crud service instance you use in the `CRUD_SERVER_ADDRESS` env variable (default: `127.0.0.1:9000`).
+
+Management API: You can specify the address (and port) of the crud service instance you use in the `CRUD_MANAGEMENT_SERVER_ADDRESS` env variable (default: `http://127.0.0.1`). You will also need to set the `CRUD_MANAGEMENT_API_TOKEN` variable. The value of that token has to match the token configured in the crud service.
 
 You might have a seperate permissions directory or file. As soon as your permissions schema enum is not part of the projections glob you can specify a `PERMISSIONS_SCHEMA_GLOB` env variable. It is empty by default but as soon as you provide it it will add the files in that glob to your projections schema, too.
 
@@ -34,6 +37,8 @@ Use a `.env` file or env variables to configure cte clients and the command:
 
 ```env
 CRUD_SERVER_ADDRESS=127.0.0.1:9000
+CRUD_MANAGEMENT_SERVER_ADDRESS=http://127.0.0.1
+CRUD_MANAGEMENT_API_TOKEN=
 CRUD_SCHEMA_GLOB=./src/crud/*.graphql
 PERMISSIONS_SCHEMA_GLOB=
 CRUD_NAMESPACE=

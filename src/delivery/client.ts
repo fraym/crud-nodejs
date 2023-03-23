@@ -1,4 +1,4 @@
-import { ClientConfig, useConfigDefaults } from "../config/config";
+import { DeliveryClientConfig, useDeliveryConfigDefaults } from "../config/config";
 import { DeliveryServiceClient } from "@fraym/crud-proto";
 import { credentials } from "@grpc/grpc-js";
 import { createCrudData, CreatedCrudData } from "./create";
@@ -40,8 +40,8 @@ export interface DeliveryClient {
     close: () => Promise<void>;
 }
 
-export const newDeliveryClient = async (config?: ClientConfig): Promise<DeliveryClient> => {
-    config = useConfigDefaults(config);
+export const newDeliveryClient = async (config?: DeliveryClientConfig): Promise<DeliveryClient> => {
+    config = useDeliveryConfigDefaults(config);
     const serviceClient = new DeliveryServiceClient(
         config.serverAddress,
         credentials.createInsecure(),

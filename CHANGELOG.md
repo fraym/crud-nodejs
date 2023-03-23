@@ -1,5 +1,9 @@
 # vNext
 
+# v0.16.0
+
+-   (bc) Use http migration api
+
 # v0.15.1
 
 -   (bug) Fix migration logic

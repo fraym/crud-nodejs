@@ -30,7 +30,8 @@ const run = async () => {
         .config({
             schemaGlob: "./src/**/*.graphql",
             permissionsSchemaGlob: "",
-            serverAddress: "127.0.0.1:9000",
+            serverAddress: "http://127.0.0.1",
+            apiToken: "",
             namespace: "",
         })
         .pkgConf("crud").argv;
@@ -38,6 +39,7 @@ const run = async () => {
     let schemaGlob: string = argv.schemaGlob as string;
     let permissionsSchemaGlob: string = argv.permissionsSchemaGlob as string;
     let serverAddress: string = argv.serverAddress as string;
+    let apiToken: string = argv.apiToken as string;
     let namespace: string = argv.namespace as string;
 
     if (process.env.CRUD_SCHEMA_GLOB) {
@@ -48,8 +50,12 @@ const run = async () => {
         permissionsSchemaGlob = process.env.PERMISSIONS_SCHEMA_GLOB;
     }
 
-    if (process.env.CRUD_SERVER_ADDRESS) {
-        serverAddress = process.env.CRUD_SERVER_ADDRESS;
+    if (process.env.CRUD_MANAGEMENT_SERVER_ADDRESS) {
+        serverAddress = process.env.CRUD_MANAGEMENT_SERVER_ADDRESS;
+    }
+
+    if (process.env.CRUD_MANAGEMENT_API_TOKEN) {
+        apiToken = process.env.CRUD_MANAGEMENT_API_TOKEN;
     }
 
     if (process.env.CRUD_NAMESPACE) {
@@ -72,7 +78,7 @@ const run = async () => {
 
     const definitions = getTypeDefinition(schema, namespace);
 
-    await migrateSchemas(definitions, serverAddress, namespace);
+    await migrateSchemas(definitions, serverAddress, apiToken, namespace);
 };
 
 run();
@@ -356,13 +362,14 @@ const addNestedTypesToSchema = (
 const migrateSchemas = async (
     definitions: Record<string, TypeDefinition>,
     serverAddress: string,
+    apiToken: string,
     namespace: string
 ) => {
     console.log(`Considering ${Object.keys(definitions).length} type definitions for migration.`);
     console.log(`Using server address ${serverAddress}`);
     console.log(`Using namespace ${namespace}`);
 
-    const managementClient = await newManagementClient({ serverAddress });
+    const managementClient = await newManagementClient({ serverAddress, apiToken });
     const existingTypeNames = (await managementClient.getAllTypes()).filter(
         name => name.startsWith(namespace) && !name.startsWith("Fraym")
     );
@@ -433,13 +440,13 @@ const migrateSchemas = async (
 
     if (typesToCreate.length > 0) {
         console.log(`Creating ${typesToCreate.length} types: ${typesToCreate}...`);
-        await managementClient.createTypes(createSchema);
+        await managementClient.upsertTypes(createSchema);
         console.log(`Created ${typesToCreate.length} types`);
     }
 
     if (typesToUpdate.length > 0) {
         console.log(`Updating ${typesToUpdate.length} types: ${typesToUpdate}...`);
-        await managementClient.updateTypes(updateSchema);
+        await managementClient.upsertTypes(updateSchema);
         console.log(`Updated ${typesToUpdate.length} types`);
     }
 
