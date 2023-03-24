@@ -4,7 +4,7 @@ export const removeCrudTypes = async (
     typeNames: string[],
     config: ManagementClientConfig
 ): Promise<void> => {
-    await fetch(`${config.serverAddress}/management/types`, {
+    const response = await fetch(`${config.serverAddress}/management/types`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${config.apiToken}`,
@@ -14,4 +14,8 @@ export const removeCrudTypes = async (
             typeNames,
         }),
     });
+
+    if (!response.ok) {
+        throw new Error(await response.text());
+    }
 };

@@ -4,7 +4,7 @@ export const upsertCrudTypes = async (
     schema: string,
     config: ManagementClientConfig
 ): Promise<void> => {
-    await fetch(`${config.serverAddress}/management/types`, {
+    const response = await fetch(`${config.serverAddress}/management/types`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${config.apiToken}`,
@@ -14,4 +14,8 @@ export const upsertCrudTypes = async (
             schema,
         }),
     });
+
+    if (!response.ok) {
+        throw new Error(await response.text());
+    }
 };

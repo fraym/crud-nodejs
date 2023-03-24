@@ -1,5 +1,7 @@
 # vNext
 
+-   (bug) Throw correct errors in management api
+
 # v0.16.1
 
 -   (bug) Fix config
