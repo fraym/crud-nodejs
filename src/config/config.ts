@@ -19,12 +19,12 @@ export interface ManagementClientConfig {
 export const getEnvDeliveryConfig = (): DeliveryClientConfig => {
     config();
 
-    const serverAddress = process.env.PROJECTIONS_SERVER_ADDRESS ?? "";
+    const serverAddress = process.env.CRUD_SERVER_ADDRESS ?? "";
     let keepaliveInterval: number | undefined;
     let keepaliveTimeout: number | undefined;
 
-    const keepaliveIntervalString = process.env.PROJECTIONS_CONNECTION_KEEPALIVE_INTERVAL;
-    const keepaliveTimeoutString = process.env.PROJECTIONS_CONNECTION_KEEPALIVE_INTERVAL;
+    const keepaliveIntervalString = process.env.CRUD_CONNECTION_KEEPALIVE_INTERVAL;
+    const keepaliveTimeoutString = process.env.CRUD_CONNECTION_KEEPALIVE_INTERVAL;
 
     if (keepaliveIntervalString) {
         keepaliveInterval = parseInt(keepaliveIntervalString, 10);
@@ -45,8 +45,8 @@ export const getEnvManagementConfig = (): ManagementClientConfig => {
     config();
 
     return {
-        serverAddress: process.env.PROJECTIONS_MANAGEMENT_SERVER_ADDRESS ?? "",
-        apiToken: process.env.PROJECTIONS_MANAGEMENT_API_TOKEN ?? "",
+        serverAddress: process.env.CRUD_MANAGEMENT_SERVER_ADDRESS ?? "",
+        apiToken: process.env.CRUD_MANAGEMENT_API_TOKEN ?? "",
     };
 };
 
