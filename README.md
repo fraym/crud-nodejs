@@ -90,6 +90,30 @@ await managementClient.removeTypes(["YourCrudType"]);
 const list = await managementClient.getAllTypes();
 ```
 
+### Authorization
+
+All delivery client functions make use of the `AuthData` object.
+This data is used to check access for the desired action.
+
+You can add the `FRAYM_AUTH_OWNER` scope in case you are performing an action that is no subject to restrictions.
+
+Fields:
+
+-   `tenantId`: Id of the tenant to use
+-   `scopes`: Slice of scopes to use for the action
+-   `data`: Data that is used in directives like `@filterFromJwtData`
+
+### Event Metadata
+
+You can specify the correlation and causation IDs for the upsert and delete functions. The `eventMetadata` parameter is optional for all these functions and has the following structure:
+
+```typescript
+const eventMetadata = {
+    correlationId: "some-correlation-id",
+    causationId: "some-causation-id",
+};
+```
+
 ### Create data
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
