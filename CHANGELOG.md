@@ -1,6 +1,8 @@
 # vNext
 
--   (bug) Throw correct errors in management api
+# v0.16.2
+
+-   (bug) Fix error handling in migrations
 
 # v0.16.1
 
