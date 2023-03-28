@@ -1,5 +1,9 @@
 # vNext
 
+# v0.17.1
+
+-   (bug) Fix naming clash with projections
+
 # v0.17.0
 
 -   (bc) Implement new delivery api
