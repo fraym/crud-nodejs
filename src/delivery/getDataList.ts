@@ -1,16 +1,18 @@
 import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { AuthData, getProtobufAuthData } from "./auth";
 import { Filter, getProtobufEntryFilter } from "./filter";
 import { getProtobufEntryOrder, Order } from "./order";
 
 export interface GetCrudDataList<T extends {}> {
     limit: number;
     page: number;
+    total: number;
     data: T[];
 }
 
 export const getCrudDataList = async <T extends {}>(
-    tenantId: string,
     type: string,
+    authData: AuthData,
     limit: number,
     page: number,
     filter: Filter,
@@ -18,14 +20,12 @@ export const getCrudDataList = async <T extends {}>(
     serviceClient: DeliveryServiceClient
 ): Promise<GetCrudDataList<T>> => {
     return new Promise<GetCrudDataList<T>>((resolve, reject) => {
-        serviceClient.getEntries(
+        serviceClient.getEntryList(
             {
-                tenantId,
                 type,
-                id: "",
+                auth: getProtobufAuthData(authData),
                 limit,
                 page,
-                returnEmptyDataIfNotFound: false,
                 filter: getProtobufEntryFilter(filter),
                 order: getProtobufEntryOrder(order),
             },
@@ -51,6 +51,7 @@ export const getCrudDataList = async <T extends {}>(
                 resolve({
                     limit: response.limit,
                     page: response.page,
+                    total: response.total,
                     data,
                 });
             }

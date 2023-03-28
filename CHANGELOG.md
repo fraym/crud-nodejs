@@ -1,5 +1,10 @@
 # vNext
 
+# v0.17.0
+
+-   (bc) Implement new delivery api
+-   (feature) Add total amount to pagination data
+
 # v0.16.2
 
 -   (bug) Fix error handling in migrations

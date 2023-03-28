@@ -1,23 +1,23 @@
 import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { AuthData, getProtobufAuthData } from "./auth";
+import { Filter, getProtobufEntryFilter } from "./filter";
 
 export const getCrudData = async <T extends {}>(
-    tenantId: string,
     type: string,
+    authData: AuthData,
     id: string,
+    filter: Filter,
     returnEmptyDataIfNotFound: boolean,
     serviceClient: DeliveryServiceClient
-): Promise<T> => {
-    return new Promise<T>((resolve, reject) => {
-        serviceClient.getEntries(
+): Promise<T | null> => {
+    return new Promise<T | null>((resolve, reject) => {
+        serviceClient.getEntry(
             {
-                tenantId,
                 type,
+                auth: getProtobufAuthData(authData),
+                filter: getProtobufEntryFilter(filter),
                 id,
-                limit: 0,
-                page: 0,
                 returnEmptyDataIfNotFound,
-                filter: { fields: {}, and: [], or: [] },
-                order: [],
             },
             (error, response) => {
                 if (error) {
@@ -25,15 +25,17 @@ export const getCrudData = async <T extends {}>(
                     return;
                 }
 
-                if (response.result.length !== 1) {
-                    throw new Error("did not find the requested crud entry");
+                const result = response.result;
+
+                if (!result) {
+                    resolve(null);
+                    return;
                 }
 
                 const data: any = {};
-                const resultData = response.result[0].data;
 
-                for (const key in resultData) {
-                    data[key] = JSON.parse(resultData[key]);
+                for (const key in result.data) {
+                    data[key] = JSON.parse(result.data[key]);
                 }
 
                 resolve(data);

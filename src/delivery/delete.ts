@@ -1,28 +1,32 @@
 import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { AuthData, getProtobufAuthData } from "./auth";
+import { EventMetadata } from "./eventMetadata";
 import { Filter, getProtobufEntryFilter } from "./filter";
 
 export const deleteCrudData = async (
-    tenantId: string,
     type: string,
+    authData: AuthData,
     id: string,
     filter: Filter,
+    eventMetadata: EventMetadata,
     serviceClient: DeliveryServiceClient
-): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+): Promise<number> => {
+    return new Promise<number>((resolve, reject) => {
         serviceClient.deleteEntries(
             {
-                tenantId,
                 type,
+                auth: getProtobufAuthData(authData),
                 id,
                 filter: getProtobufEntryFilter(filter),
+                eventMetadata,
             },
-            error => {
+            (error, response) => {
                 if (error) {
                     reject(error.message);
                     return;
                 }
 
-                resolve();
+                resolve(response.numberOfDeletedEntries);
             }
         );
     });

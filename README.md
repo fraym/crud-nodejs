@@ -95,42 +95,57 @@ const list = await managementClient.getAllTypes();
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
 
 ```typescript
-const { id } = await client.create("tenantId", "YourCrudType", {
+const response = await client.create<any>("YourCrudType", authData, {
     // values here
 });
 ```
+
+The response contains the following fields:
+
+In case of no validation errors:
+
+-   `data`: The new data after your create action
+
+In case of validation errors:
+
+-   `validationErrors`: List of global validation errors that are not related to a single field
+-   `fieldValidationErrors`: Validation errors mapped by the name of the field that they relate to
 
 ### Update data
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
-The `id` has to match the id of the data that you want to update.
 
 ```typescript
-await client.update("tenantId", "YourCrudType", "id", {
+const response = await client.update<any>("YourCrudType", authData, {
     // values here
 });
 ```
+
+The response contains the following fields:
+
+In case of no validation errors:
+
+-   `data`: The new data after your create action
+
+In case of validation errors:
+
+-   `validationErrors`: List of global validation errors that are not related to a single field
+-   `fieldValidationErrors`: Validation errors mapped by the name of the field that they relate to
 
 ### Delete data
 
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
 
-Delete all data of a type:
-
-```typescript
-await client.delete("tenantId", "YourCrudType");
-```
-
 Delete data matching a specific ID:
 
 ```typescript
-await client.delete("tenantId", "YourCrudType", "id");
+const numberOfDeletedEntries = await client.deleteDataById("YourCrudType", authData, "id");
 ```
 
 Delete data matching a filter (see filter parameter for `getDataList` for details):
 
 ```typescript
-await client.delete("tenantId", "YourCrudType", undefined, {
+const numberOfDeletedEntries = await client.deleteDataByFilter("YourCrudType", authData, {
     fields: {
         fieldName: {
             operation: "equals",
@@ -143,17 +158,31 @@ await client.delete("tenantId", "YourCrudType", undefined, {
 
 ### Get a single data element
 
+A filter could look like this:
+
+```go
+const filter := {
+	fields: {
+        fieldName: {
+            operation: "equals",
+            type: "Int",
+            value: 123,
+        },
+    },
+}
+```
+
 The name of `YourCrudType` has to equal your type name in your schema (also in casing).
 The `id` has to match the id of the data that you want to get.
 
 ```typescript
-const data = await client.getData("tenantId", "YourCrudType", "id");
-```
-
-You can specify a fourth parameter if you want to return a empty dataset instead of getting an error when querying a non existing element:
-
-```typescript
-const data = await client.getData("tenantId", "YourCrudType", "id", true);
+const data = await client.getData(
+    "YourCrudType",
+    authData,
+    "id",
+    filter,
+    returnEmptyDataIfNotFound
+);
 ```
 
 ### Get (paginated / filtered / ordered) data
@@ -163,21 +192,28 @@ The name of `YourCrudType` has to equal your type name in your schema (also in c
 No pagination:
 
 ```typescript
-const data = await client.getDataList("tenantId", "YourCrudType");
+const dataList = await client.getDataList("YourCrudType", authData);
 ```
+
+The dataList response contains the following fields:
+
+-   `limit`: The pagination limit
+-   `page`: The pagination page
+-   `total`: The total amount of elements matching the given filter
+-   `data`: The selected data
 
 With pagination:
 
 ```typescript
 const limit = 50; // elements to query per page
 const page = 1; // number of the page you want to select, first page starts at: 1
-const data = await client.getDataList("tenantId", "YourCrudType", limit, page);
+const dataList = await client.getDataList("YourCrudType", authData, limit, page);
 ```
 
 With filter:
 
 ```typescript
-const data = await client.getDataList("tenantId", "YourCrudType", undefined, undefined, {
+const dataList = await client.getDataList("YourCrudType", authData, undefined, undefined, {
     fields: {
         fieldName: {
             operation: "equals",
@@ -232,15 +268,22 @@ With order:
 All order definitions are prioritized in the order that they are defined (the first definition is prioritized over the second).
 
 ```typescript
-const data = await client.getDataList("tenantId", "YourCrudType", undefined, undefined, undefined, [
-    {
-        field: "fieldName",
-        descending: true, // omit this value for asc order
-    },
-]);
+const dataList = await client.getDataList(
+    "YourCrudType",
+    authData,
+    undefined,
+    undefined,
+    undefined,
+    [
+        {
+            field: "fieldName",
+            descending: true, // omit this value for asc order
+        },
+    ]
+);
 ```
 
-### Gracefully close the clients
+### Gracefully close the client
 
 You won't lose any data if you don't. Use it for your peace of mind.
 
