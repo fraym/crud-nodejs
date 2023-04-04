@@ -1,5 +1,9 @@
 # vNext
 
+# v0.17.2
+
+-   (bug) Fix create and update api
+
 # v0.17.1
 
 -   (bug) Fix naming clash with projections

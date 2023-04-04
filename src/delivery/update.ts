@@ -54,7 +54,10 @@ export const updateCrudData = async <T extends {}>(
                     return;
                 }
 
-                if (response.validationErrors || response.fieldValidationErrors) {
+                if (
+                    response.validationErrors.length > 0 ||
+                    Object.keys(response.fieldValidationErrors).length > 0
+                ) {
                     resolve({
                         validationErrors: response.validationErrors,
                         fieldValidationErrors: response.fieldValidationErrors,
