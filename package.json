@@ -1,7 +1,7 @@
 {
     "name": "@fraym/crud",
     "version": "0.17.2",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "homepage": "https://github.com/fraym/crud-nodejs",
     "repository": {
         "type": "git",
