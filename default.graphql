@@ -21,6 +21,7 @@ directive @permission(
     delete: [Permission!]
     all: [Permission!]
 ) on OBJECT | FIELD_DEFINITION
+directive @unique(fields: [String!], name: String) on OBJECT | FIELD_DEFINITION
 
 directive @validate(tags: [String!]!) on FIELD_DEFINITION
 directive @default(value: Any!) on FIELD_DEFINITION
