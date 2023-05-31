@@ -1,5 +1,10 @@
 # vNext
 
+# v0.18.0
+
+-   (bc) Remove management client
+-   (bc) Remove migration command
+
 # v0.17.2
 
 -   (bug) Fix create and update api
