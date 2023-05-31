@@ -25,9 +25,7 @@ CRUD_SERVER_ADDRESS=127.0.0.1:9000
 
 ## Usage
 
-### Create the clients
-
-delivery client:
+### Create the client
 
 ```typescript
 const deliveryClient = await newDeliveryClient();
