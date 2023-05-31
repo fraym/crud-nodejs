@@ -1,5 +1,9 @@
 # vNext
 
+# v0.18.1
+
+-   (bug) Remove management client config
+
 # v0.18.0
 
 -   (bc) Remove management client
