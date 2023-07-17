@@ -1,5 +1,9 @@
 # vNext
 
+# v0.19.0
+
+-   (feature) Add wait condition to `getData` of delivery client
+
 # v0.18.1
 
 -   (bug) Remove management client config

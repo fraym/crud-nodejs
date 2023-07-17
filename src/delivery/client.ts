@@ -10,6 +10,7 @@ import { Filter } from "./filter";
 import { Order } from "./order";
 import { AuthData } from "./auth";
 import { EventMetadata } from "./eventMetadata";
+import { Wait } from "./wait";
 
 export interface DeliveryClient {
     getData: <T extends {}>(
@@ -17,7 +18,8 @@ export interface DeliveryClient {
         authData: AuthData,
         id: string,
         filter?: Filter,
-        returnEmptyDataIfNotFound?: boolean
+        returnEmptyDataIfNotFound?: boolean,
+        wait?: Wait
     ) => Promise<T | null>;
     getDataList: <T extends {}>(
         type: string,
@@ -73,7 +75,8 @@ export const newDeliveryClient = async (config?: DeliveryClientConfig): Promise<
         authData: AuthData,
         id: string,
         filter: Filter = { fields: {}, and: [], or: [] },
-        returnEmptyDataIfNotFound: boolean = false
+        returnEmptyDataIfNotFound: boolean = false,
+        wait?: Wait
     ): Promise<T | null> => {
         return await getCrudData<T>(
             type,
@@ -81,7 +84,8 @@ export const newDeliveryClient = async (config?: DeliveryClientConfig): Promise<
             id,
             filter,
             returnEmptyDataIfNotFound,
-            serviceClient
+            serviceClient,
+            wait
         );
     };
 

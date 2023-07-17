@@ -1,6 +1,7 @@
 import { DeliveryServiceClient } from "@fraym/crud-proto";
 import { AuthData, getProtobufAuthData } from "./auth";
 import { Filter, getProtobufEntryFilter } from "./filter";
+import { Wait, getProtobufEntryWait } from "./wait";
 
 export const getCrudData = async <T extends {}>(
     type: string,
@@ -8,7 +9,8 @@ export const getCrudData = async <T extends {}>(
     id: string,
     filter: Filter,
     returnEmptyDataIfNotFound: boolean,
-    serviceClient: DeliveryServiceClient
+    serviceClient: DeliveryServiceClient,
+    wait?: Wait
 ): Promise<T | null> => {
     return new Promise<T | null>((resolve, reject) => {
         serviceClient.getEntry(
@@ -18,6 +20,7 @@ export const getCrudData = async <T extends {}>(
                 filter: getProtobufEntryFilter(filter),
                 id,
                 returnEmptyDataIfNotFound,
+                wait: getProtobufEntryWait(wait),
             },
             (error, response) => {
                 if (error) {
