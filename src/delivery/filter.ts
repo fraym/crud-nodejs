@@ -1,4 +1,4 @@
-import { EntryFilter } from "@fraym/crud-proto";
+import { EntryFilter } from "@fraym/proto/freym/crud/delivery";
 
 export interface Filter {
     fields: Record<string, FieldFilter>;

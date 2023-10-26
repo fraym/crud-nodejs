@@ -1,4 +1,4 @@
-import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { AuthData, getProtobufAuthData } from "./auth";
 import { Filter, getProtobufEntryFilter } from "./filter";
 import { Wait, getProtobufEntryWait } from "./wait";
@@ -9,7 +9,7 @@ export const getCrudData = async <T extends {}>(
     id: string,
     filter: Filter,
     returnEmptyDataIfNotFound: boolean,
-    serviceClient: DeliveryServiceClient,
+    serviceClient: ServiceClient,
     wait?: Wait
 ): Promise<T | null> => {
     return new Promise<T | null>((resolve, reject) => {

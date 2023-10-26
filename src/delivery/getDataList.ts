@@ -1,4 +1,4 @@
-import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { AuthData, getProtobufAuthData } from "./auth";
 import { Filter, getProtobufEntryFilter } from "./filter";
 import { getProtobufEntryOrder, Order } from "./order";
@@ -17,7 +17,7 @@ export const getCrudDataList = async <T extends {}>(
     page: number,
     filter: Filter,
     order: Order[],
-    serviceClient: DeliveryServiceClient
+    serviceClient: ServiceClient
 ): Promise<GetCrudDataList<T>> => {
     return new Promise<GetCrudDataList<T>>((resolve, reject) => {
         serviceClient.getEntryList(

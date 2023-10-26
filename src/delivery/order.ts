@@ -1,4 +1,4 @@
-import { EntryOrder } from "@fraym/crud-proto";
+import { EntryOrder } from "@fraym/proto/freym/crud/delivery";
 
 export interface Order {
     field: string;

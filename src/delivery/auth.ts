@@ -1,4 +1,4 @@
-import { CrudAuthData } from "@fraym/crud-proto";
+import { CrudAuthData } from "@fraym/proto/freym/crud/delivery";
 
 export interface AuthData {
     tenantId: string;

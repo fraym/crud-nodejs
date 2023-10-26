@@ -1,4 +1,4 @@
-import { EntryWait } from "@fraym/crud-proto";
+import { EntryWait } from "@fraym/proto/freym/crud/delivery";
 import { Filter, getProtobufEntryFilter } from "./filter";
 
 export interface Wait {

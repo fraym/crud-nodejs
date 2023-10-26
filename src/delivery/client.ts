@@ -1,5 +1,5 @@
 import { DeliveryClientConfig, useDeliveryConfigDefaults } from "../config/config";
-import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { credentials } from "@grpc/grpc-js";
 import { createCrudData, CreateResponse } from "./create";
 import { updateCrudData, UpdateResponse } from "./update";
@@ -60,15 +60,11 @@ export interface DeliveryClient {
 
 export const newDeliveryClient = async (config?: DeliveryClientConfig): Promise<DeliveryClient> => {
     config = useDeliveryConfigDefaults(config);
-    const serviceClient = new DeliveryServiceClient(
-        config.serverAddress,
-        credentials.createInsecure(),
-        {
-            "grpc.keepalive_time_ms": config.keepaliveInterval,
-            "grpc.keepalive_timeout_ms": config.keepaliveTimeout,
-            "grpc.keepalive_permit_without_calls": 1,
-        }
-    );
+    const serviceClient = new ServiceClient(config.serverAddress, credentials.createInsecure(), {
+        "grpc.keepalive_time_ms": config.keepaliveInterval,
+        "grpc.keepalive_timeout_ms": config.keepaliveTimeout,
+        "grpc.keepalive_permit_without_calls": 1,
+    });
 
     const getData = async <T extends {}>(
         type: string,

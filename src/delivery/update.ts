@@ -1,4 +1,4 @@
-import { DeliveryServiceClient } from "@fraym/crud-proto";
+import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { AuthData, getProtobufAuthData } from "./auth";
 import { EventMetadata } from "./eventMetadata";
 
@@ -31,7 +31,7 @@ export const updateCrudData = async <T extends {}>(
     id: string,
     data: Record<string, any>,
     eventMetadata: EventMetadata,
-    serviceClient: DeliveryServiceClient
+    serviceClient: ServiceClient
 ): Promise<UpdateResponse<T>> => {
     const requestData: Record<string, string> = {};
 

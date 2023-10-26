@@ -1,5 +1,9 @@
 # vNext
 
+# v0.20.0
+
+-   (bc) Use new protobuf lib
+
 # v0.19.0
 
 -   (feature) Add wait condition to `getData` of delivery client
