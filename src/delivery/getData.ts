@@ -1,7 +1,7 @@
 import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { AuthData, getProtobufAuthData } from "./auth";
-import { Filter, getProtobufEntryFilter } from "./filter";
-import { Wait, getProtobufEntryWait } from "./wait";
+import { Filter, getProtobufDataFilter } from "./filter";
+import { Wait, getProtobufDataWait } from "./wait";
 
 export const getCrudData = async <T extends {}>(
     type: string,
@@ -17,10 +17,10 @@ export const getCrudData = async <T extends {}>(
             {
                 type,
                 auth: getProtobufAuthData(authData),
-                filter: getProtobufEntryFilter(filter),
+                filter: getProtobufDataFilter(filter),
                 id,
                 returnEmptyDataIfNotFound,
-                wait: getProtobufEntryWait(wait),
+                wait: getProtobufDataWait(wait),
             },
             (error, response) => {
                 if (error) {

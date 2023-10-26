@@ -1,18 +1,18 @@
-import { EntryWait } from "@fraym/proto/freym/crud/delivery";
-import { Filter, getProtobufEntryFilter } from "./filter";
+import { DataWait } from "@fraym/proto/freym/crud/delivery";
+import { Filter, getProtobufDataFilter } from "./filter";
 
 export interface Wait {
     timeout?: number;
     conditionFilter: Filter;
 }
 
-export const getProtobufEntryWait = (wait?: Wait): EntryWait | undefined => {
+export const getProtobufDataWait = (wait?: Wait): DataWait | undefined => {
     if (!wait) {
         return undefined;
     }
 
     return {
-        conditionFilter: getProtobufEntryFilter(wait.conditionFilter),
+        conditionFilter: getProtobufDataFilter(wait.conditionFilter),
         timeout: wait.timeout ?? 0,
     };
 };

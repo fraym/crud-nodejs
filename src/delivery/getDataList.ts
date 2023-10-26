@@ -1,7 +1,7 @@
 import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { AuthData, getProtobufAuthData } from "./auth";
-import { Filter, getProtobufEntryFilter } from "./filter";
-import { getProtobufEntryOrder, Order } from "./order";
+import { Filter, getProtobufDataFilter } from "./filter";
+import { Order, getProtobufDataOrder } from "./order";
 
 export interface GetCrudDataList<T extends {}> {
     limit: number;
@@ -26,8 +26,8 @@ export const getCrudDataList = async <T extends {}>(
                 auth: getProtobufAuthData(authData),
                 limit,
                 page,
-                filter: getProtobufEntryFilter(filter),
-                order: getProtobufEntryOrder(order),
+                filter: getProtobufDataFilter(filter),
+                order: getProtobufDataOrder(order),
             },
             (error, response) => {
                 if (error) {

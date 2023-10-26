@@ -1,4 +1,4 @@
-import { EntryFilter } from "@fraym/proto/freym/crud/delivery";
+import { DataFilter } from "@fraym/proto/freym/crud/delivery";
 
 export interface Filter {
     fields: Record<string, FieldFilter>;
@@ -12,7 +12,7 @@ export interface FieldFilter {
     value: any;
 }
 
-export const getProtobufEntryFilter = (filter: Filter): EntryFilter => {
+export const getProtobufDataFilter = (filter: Filter): DataFilter => {
     const fields: Record<string, FieldFilter> = {};
 
     for (const fieldName in filter.fields) {
@@ -26,7 +26,7 @@ export const getProtobufEntryFilter = (filter: Filter): EntryFilter => {
 
     return {
         fields: fields,
-        and: filter.and ? filter.and.map(and => getProtobufEntryFilter(and)) : [],
-        or: filter.or ? filter.or.map(or => getProtobufEntryFilter(or)) : [],
+        and: filter.and ? filter.and.map(and => getProtobufDataFilter(and)) : [],
+        or: filter.or ? filter.or.map(or => getProtobufDataFilter(or)) : [],
     };
 };

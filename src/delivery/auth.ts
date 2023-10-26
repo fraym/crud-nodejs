@@ -1,4 +1,4 @@
-import { CrudAuthData } from "@fraym/proto/freym/crud/delivery";
+import { AuthData as pbAuthData } from "@fraym/proto/freym/crud/delivery";
 
 export interface AuthData {
     tenantId: string;
@@ -6,7 +6,7 @@ export interface AuthData {
     data: Record<string, any>;
 }
 
-export const getProtobufAuthData = (auth: AuthData): CrudAuthData => {
+export const getProtobufAuthData = (auth: AuthData): pbAuthData => {
     const data: Record<string, string> = {};
 
     for (let key in auth.data) {

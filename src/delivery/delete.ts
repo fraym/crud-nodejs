@@ -1,7 +1,7 @@
 import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { AuthData, getProtobufAuthData } from "./auth";
 import { EventMetadata } from "./eventMetadata";
-import { Filter, getProtobufEntryFilter } from "./filter";
+import { Filter, getProtobufDataFilter } from "./filter";
 
 export const deleteCrudData = async (
     type: string,
@@ -17,7 +17,7 @@ export const deleteCrudData = async (
                 type,
                 auth: getProtobufAuthData(authData),
                 id,
-                filter: getProtobufEntryFilter(filter),
+                filter: getProtobufDataFilter(filter),
                 eventMetadata,
             },
             (error, response) => {

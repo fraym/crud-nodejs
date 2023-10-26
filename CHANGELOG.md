@@ -1,5 +1,9 @@
 # vNext
 
+# v0.20.1
+
+-   (bug) Fix type names
+
 # v0.20.0
 
 -   (bc) Use new protobuf lib
