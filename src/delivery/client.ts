@@ -11,7 +11,7 @@ import { Order } from "./order";
 import { AuthData } from "./auth";
 import { EventMetadata } from "./eventMetadata";
 import { Wait } from "./wait";
-import { cloneCrudData } from "delivery/clone";
+import { CloneResponse, cloneCrudData } from "./clone";
 
 export interface DeliveryClient {
     getData: <T extends {}>(
@@ -50,7 +50,7 @@ export interface DeliveryClient {
         id: string,
         newId: string,
         eventMetadata?: EventMetadata
-    ) => Promise<UpdateResponse<T>>;
+    ) => Promise<CloneResponse<T>>;
     deleteDataById: (
         type: string,
         authData: AuthData,

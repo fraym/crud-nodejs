@@ -1,5 +1,9 @@
 # vNext
 
+# v0.21.1
+
+-   (bug) Add missing validation errors to clone api
+
 # v0.21.0
 
 -   (feature) Add clone api
