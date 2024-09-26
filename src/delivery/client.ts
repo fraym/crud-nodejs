@@ -11,6 +11,7 @@ import { Order } from "./order";
 import { AuthData } from "./auth";
 import { EventMetadata } from "./eventMetadata";
 import { Wait } from "./wait";
+import { cloneCrudData } from "delivery/clone";
 
 export interface DeliveryClient {
     getData: <T extends {}>(
@@ -41,6 +42,13 @@ export interface DeliveryClient {
         authData: AuthData,
         id: string,
         data: Record<string, any>,
+        eventMetadata?: EventMetadata
+    ) => Promise<UpdateResponse<T>>;
+    clone: <T extends {}>(
+        type: string,
+        authData: AuthData,
+        id: string,
+        newId: string,
         eventMetadata?: EventMetadata
     ) => Promise<UpdateResponse<T>>;
     deleteDataById: (
@@ -116,6 +124,16 @@ export const newDeliveryClient = async (config?: DeliveryClientConfig): Promise<
         return await updateCrudData<T>(type, authData, id, data, eventMetadata, serviceClient);
     };
 
+    const clone = async <T extends {}>(
+        type: string,
+        authData: AuthData,
+        id: string,
+        newId: string,
+        eventMetadata: EventMetadata = { causationId: "", correlationId: "" }
+    ) => {
+        return await cloneCrudData<T>(type, authData, id, newId, eventMetadata, serviceClient);
+    };
+
     const deleteDataById = async (
         type: string,
         authData: AuthData,
@@ -150,6 +168,7 @@ export const newDeliveryClient = async (config?: DeliveryClientConfig): Promise<
         getDataList,
         create,
         update,
+        clone,
         deleteDataById,
         deleteDataByFilter,
         close,

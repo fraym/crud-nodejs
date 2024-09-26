@@ -1,5 +1,10 @@
 # vNext
 
+# v0.21.0
+
+-   (feature) Add clone api
+-   (internal) Update dependencies
+
 # v0.20.1
 
 -   (bug) Fix type names

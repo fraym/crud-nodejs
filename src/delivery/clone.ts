@@ -1,23 +1,22 @@
 import { ServiceClient } from "@fraym/proto/freym/crud/delivery";
 import { AuthData, getProtobufAuthData } from "./auth";
 import { EventMetadata } from "./eventMetadata";
-import { Filter, getProtobufDataFilter } from "./filter";
 
-export const deleteCrudData = async (
+export const cloneCrudData = async <T extends {}>(
     type: string,
     authData: AuthData,
     id: string,
-    filter: Filter,
+    newId: string,
     eventMetadata: EventMetadata,
     serviceClient: ServiceClient
-): Promise<number> => {
-    return new Promise<number>((resolve, reject) => {
-        serviceClient.deleteEntries(
+): Promise<T> => {
+    return new Promise<T>((resolve, reject) => {
+        serviceClient.cloneEntry(
             {
                 type,
                 auth: getProtobufAuthData(authData),
                 id,
-                filter: getProtobufDataFilter(filter),
+                newId,
                 eventMetadata,
             },
             (error, response) => {
@@ -26,7 +25,13 @@ export const deleteCrudData = async (
                     return;
                 }
 
-                resolve(parseInt(response.numberOfDeletedEntries, 10));
+                const data: any = {};
+
+                for (const key in response.newData) {
+                    data[key] = JSON.parse(response.newData[key]);
+                }
+
+                resolve(data);
             }
         );
     });

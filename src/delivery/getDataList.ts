@@ -24,8 +24,8 @@ export const getCrudDataList = async <T extends {}>(
             {
                 type,
                 auth: getProtobufAuthData(authData),
-                limit,
-                page,
+                limit: limit.toString(),
+                page: page.toString(),
                 filter: getProtobufDataFilter(filter),
                 order: getProtobufDataOrder(order),
             },
@@ -49,9 +49,9 @@ export const getCrudDataList = async <T extends {}>(
                 }
 
                 resolve({
-                    limit: response.limit,
-                    page: response.page,
-                    total: response.total,
+                    limit: parseInt(response.limit, 10),
+                    page: parseInt(response.page, 10),
+                    total: parseInt(response.total, 10),
                     data,
                 });
             }
